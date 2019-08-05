@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginEnd="8dp"
+                                   android:layout_marginStart="8dp"
+                                   android:layout_marginTop="8dp">
+
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
+
+        <!--<RelativeLayout android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:id="@+id/view_background"-->
+                        <!--android:background="@color/bg_row_background"-->
+                        <!--android:padding="8dp">-->
+
+            <!--<ImageView android:layout_width="@dimen/ic_delete" android:layout_height="@dimen/ic_delete"-->
+                       <!--android:id="@+id/delete_icon"-->
+                       <!--android:layout_alignParentEnd="true"-->
+                       <!--android:layout_centerVertical="true"-->
+                       <!--android:src="@drawable/ic_delete"/>-->
+
+            <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+                      <!--android:layout_centerVertical="true"-->
+                      <!--android:layout_toStartOf="@id/delete_icon"-->
+                      <!--android:textColor="@color/white"/>-->
+
+
+        <!--</RelativeLayout>-->
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/view_foreground"
+                        android:background="@color/white"
+                        android:padding="8dp">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/text_view_category"
+                      android:text="Category Name"
+                      android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                      android:maxLines="1"
+                      android:layout_alignParentStart="true"
+                      android:ellipsize="end"/>
+
+        </RelativeLayout>
+    </FrameLayout>
+
+
+</androidx.cardview.widget.CardView>
