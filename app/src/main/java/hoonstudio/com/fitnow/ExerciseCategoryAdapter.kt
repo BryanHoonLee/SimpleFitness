@@ -22,7 +22,7 @@ class ExerciseCategoryAdapter: RecyclerView.Adapter<ExerciseCategoryAdapter.Exer
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseCategoryHolder {
         var itemView: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.exercise_category_item, parent, false)
+            .inflate(R.layout.item_exercise_category, parent, false)
         return ExerciseCategoryHolder(itemView)
     }
 

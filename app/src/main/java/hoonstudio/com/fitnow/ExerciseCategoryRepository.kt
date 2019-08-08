@@ -2,7 +2,6 @@ package hoonstudio.com.fitnow
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.room.Delete
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +15,7 @@ class ExerciseCategoryRepository{
 
 
     constructor(application: Application) {
-        val database = ExerciseCategoryDatabase.getInstance(application)!!
+        val database = ExerciseDatabase.getInstance(application)!!
         exerciseCategoryDao = database.exerciseCategoryDao()
         allExerciseCategory = exerciseCategoryDao.getAllCategories()
         if(this::allExerciseCategory.isInitialized){

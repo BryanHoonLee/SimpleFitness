@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Constructs an ItemTouchHelper() that attaches to the recycler view so items can slide to the left
+     * for a delete function
+     */
     private fun initTouchHelper(){
         val background = ColorDrawable()
         val deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete)
@@ -126,12 +130,16 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
+    /**
+     * Creates an Alert Dialog to ask for user confirmation when deleting a category
+     * @param viewHolder    Need the position of the item from the current viewholder
+     */
     private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder){
         val builder = AlertDialog.Builder(this@MainActivity)
         builder.setCancelable(false)
         builder.setTitle("Delete Confirmation")
         builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseCategoryAt(viewHolder.adapterPosition).category} category?")
-        builder.setPositiveButton("Delete"){dialog, which ->
+        builder.setPositiveButton("Delete"){_,_ ->
             exerciseCategoryViewModel.delete(adapter.getExerciseCategoryAt(viewHolder.adapterPosition))
             Toast.makeText(this@MainActivity, "Deleted", Toast.LENGTH_SHORT).show()
 
@@ -146,6 +154,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     *
+     */
     private fun initRecyclerView(){
         recyclerView= findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)

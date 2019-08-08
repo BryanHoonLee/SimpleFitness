@@ -9,12 +9,16 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".AddCategoryActivity"
-                  android:windowSoftInputMode="stateVisible"
-                  android:parentActivityName=".MainActivity">
+        <activity android:name=".ExerciseItemActivity">
         </activity>
-        <activity android:name=".MainActivity"
-        android:launchMode="singleTop">
+        <activity
+                android:name=".AddCategoryActivity"
+                android:parentActivityName=".MainActivity"
+                android:windowSoftInputMode="stateVisible">
+        </activity>
+        <activity
+                android:name=".MainActivity"
+                android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

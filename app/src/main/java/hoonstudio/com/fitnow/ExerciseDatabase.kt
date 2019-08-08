@@ -11,17 +11,17 @@ import kotlinx.coroutines.launch
 
 
 @Database(entities = arrayOf(ExerciseCategory::class, ExerciseItem::class), version = 6)
-abstract class ExerciseCategoryDatabase: RoomDatabase(){
+abstract class ExerciseDatabase: RoomDatabase(){
 
     companion object {
 
-        private lateinit var instance: ExerciseCategoryDatabase
+        private lateinit var instance: ExerciseDatabase
 
-        fun getInstance(context: Context): ExerciseCategoryDatabase?{
+        fun getInstance(context: Context): ExerciseDatabase?{
             if(!this::instance.isInitialized){
-                synchronized(ExerciseCategoryDatabase::class){
+                synchronized(ExerciseDatabase::class){
                     instance = Room.databaseBuilder(context.applicationContext,
-                        ExerciseCategoryDatabase::class.java, "exerciseCategory.db")
+                        ExerciseDatabase::class.java, "exerciseCategory.db")
                         .fallbackToDestructiveMigration()
                         .addCallback(roomCallback)
                         .build()
@@ -41,7 +41,7 @@ abstract class ExerciseCategoryDatabase: RoomDatabase(){
             }
         }
 
-        private class PopulateDb internal constructor(private val exerciseCategoryDatabase: ExerciseCategoryDatabase){
+        private class PopulateDb internal constructor(private val exerciseCategoryDatabase: ExerciseDatabase){
             private val scope = CoroutineScope(Dispatchers.Default)
             private val exerciseCategoryDao = exerciseCategoryDatabase.exerciseCategoryDao()
 
