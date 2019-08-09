@@ -3,7 +3,6 @@ package hoonstudio.com.fitnow
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,7 +11,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -23,18 +21,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.OnCategoryListener{
     private lateinit var exerciseCategoryViewModel: ExerciseCategoryViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ExerciseCategoryAdapter
 
     companion object{
         private val ADD_EXERCISE_CATEGORY_REQUEST = 1
+        private val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.CATEGORY_ID_EXTRA"
+    }
+
+    override fun onCategoryClick(position: Int) {
+        var categoryId = adapter.getExerciseCategoryAt(position).id
+        Log.d("ExerciseItemActivity3", (categoryId.toString()))
+        var intent = Intent(this, ExerciseItemActivity::class.java)
+        intent.putExtra(CATEGORY_ID_EXTRA, categoryId)
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_exercise_category)
 
         var buttonAddExerciseCategory = findViewById<FloatingActionButton>(R.id.button_add_category)
         buttonAddExerciseCategory.setOnClickListener(View.OnClickListener {
@@ -57,7 +64,6 @@ class MainActivity : AppCompatActivity() {
             // Second parameter takes in an observer which you can pass as an anonymous inner class.
             exerciseCategoryViewModel.getAllExerciseCategory().observe(this, Observer<List<ExerciseCategory>> {
                 // update recyclerview
-                Log.d("MainActivity", it.size.toString())
                 adapter.setExerciseCategoryList(it)
 
             })
@@ -135,13 +141,13 @@ class MainActivity : AppCompatActivity() {
      * @param viewHolder    Need the position of the item from the current viewholder
      */
     private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder){
-        val builder = AlertDialog.Builder(this@MainActivity)
+        val builder = AlertDialog.Builder(this@ExerciseCategoryActivity)
         builder.setCancelable(false)
         builder.setTitle("Delete Confirmation")
         builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseCategoryAt(viewHolder.adapterPosition).category} category?")
         builder.setPositiveButton("Delete"){_,_ ->
             exerciseCategoryViewModel.delete(adapter.getExerciseCategoryAt(viewHolder.adapterPosition))
-            Toast.makeText(this@MainActivity, "Deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@ExerciseCategoryActivity, "Deleted", Toast.LENGTH_SHORT).show()
 
         }
 
@@ -162,7 +168,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
-        adapter= ExerciseCategoryAdapter()
+        adapter= ExerciseCategoryAdapter(this)
         recyclerView.adapter = adapter
     }
 

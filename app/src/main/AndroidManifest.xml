@@ -13,11 +13,15 @@
         </activity>
         <activity
                 android:name=".AddCategoryActivity"
-                android:parentActivityName=".MainActivity"
+                android:parentActivityName=".ExerciseCategoryActivity"
                 android:windowSoftInputMode="stateVisible">
         </activity>
+        <activity android:name=".AddExerciseActivity"
+                  android:parentActivityName=".ExerciseItemActivity"
+                  android:windowSoftInputMode="stateVisible">
+        </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".ExerciseCategoryActivity"
                 android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

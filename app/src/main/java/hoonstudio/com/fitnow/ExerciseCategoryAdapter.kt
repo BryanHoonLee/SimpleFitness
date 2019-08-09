@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ExerciseCategoryAdapter: RecyclerView.Adapter<ExerciseCategoryAdapter.ExerciseCategoryHolder>(){
+class ExerciseCategoryAdapter(onCategoryListener: OnCategoryListener): RecyclerView.Adapter<ExerciseCategoryAdapter.ExerciseCategoryHolder>(){
 
     private var exerciseCategoryList = emptyList<ExerciseCategory   >()
+    private var onCategoryListener: OnCategoryListener
+
+    init {
+        this.onCategoryListener = onCategoryListener
+    }
 
     fun setExerciseCategoryList(exerciseCategoryList: List<ExerciseCategory>){
         this.exerciseCategoryList = exerciseCategoryList
@@ -23,7 +28,7 @@ class ExerciseCategoryAdapter: RecyclerView.Adapter<ExerciseCategoryAdapter.Exer
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseCategoryHolder {
         var itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_exercise_category, parent, false)
-        return ExerciseCategoryHolder(itemView)
+        return ExerciseCategoryHolder(itemView, onCategoryListener)
     }
 
     override fun getItemCount(): Int {
@@ -36,11 +41,25 @@ class ExerciseCategoryAdapter: RecyclerView.Adapter<ExerciseCategoryAdapter.Exer
         holder.textViewCategory.text = current.category
     }
 
-    class ExerciseCategoryHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class ExerciseCategoryHolder(itemView: View, onCategoryListener: OnCategoryListener): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         var textViewCategory: TextView
+
+        var onCategoryListener: OnCategoryListener
+
 
         init{
             textViewCategory = itemView.findViewById(R.id.text_view_category)
+            itemView.setOnClickListener(this)
+            this.onCategoryListener = onCategoryListener
         }
+
+        override fun onClick(v: View?) {
+            onCategoryListener.onCategoryClick(adapterPosition)
+        }
+
+    }
+
+    interface OnCategoryListener{
+        fun onCategoryClick(position: Int)
     }
 }
