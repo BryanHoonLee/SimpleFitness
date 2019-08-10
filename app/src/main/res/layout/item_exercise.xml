@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -13,18 +14,56 @@
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                        android:layout_height="wrap_content">
 
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_increment"
+                android:id="@+id/button_weight_increment"
+                style="@android:style/Widget.Holo.ImageButton"
+                app:layout_constraintStart_toEndOf="@+id/button_weight_decrement" android:layout_marginStart="4dp"
+                app:layout_constraintTop_toTopOf="@+id/button_weight_decrement"
+                app:layout_constraintBottom_toBottomOf="@+id/button_weight_decrement"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_decrement"
+                android:id="@+id/button_weight_decrement"
+                style="@android:style/Widget.Holo.ImageButton"
+                app:layout_constraintStart_toEndOf="@+id/edit_text_weight"
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@+id/edit_text_weight"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_text_weight"/>
         <EditText
-                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/edit_text_weight"
+                android:padding="4dp"
+                android:inputType="numberDecimal"
+                android:maxEms="3"
+                android:ems="3"
+                android:background="@drawable/border_edit_text_background"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@+id/textView"
+                app:layout_constraintBottom_toBottomOf="@+id/textView" android:hint="0"/>
+        <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:id="@+id/text_view_sets"
                 android:inputType="numberDecimal"
                 android:ems="3"
-                app:layout_constraintTop_toTopOf="@+id/textView4"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                android:padding="4dp"
+                android:maxEms="3"
+                android:background="@drawable/border_edit_text_background"
                 app:layout_constraintStart_toStartOf="@+id/text_view_reps"
-                app:layout_constraintEnd_toEndOf="@+id/text_view_reps"/>
+                app:layout_constraintEnd_toEndOf="@+id/text_view_reps" android:textSize="16sp"
+                android:singleLine="true"
+                app:layout_constraintTop_toTopOf="@+id/textView4"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4" android:hint="0"/>
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                   android:id="@+id/text_view_exercise"
@@ -34,38 +73,98 @@
                   android:ellipsize="end"
                   android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
                   android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-                  android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"/>
+                  android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                  android:textSize="32dp" android:textStyle="bold"/>
         <TextView
                 android:text="Sets"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                android:id="@+id/textView4" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+                android:id="@+id/textView4" app:layout_constraintTop_toBottomOf="@+id/text_view_exercise"
+                android:layout_marginTop="8dp" android:textSize="24sp"/>
         <EditText
-                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:id="@+id/text_view_reps"
+                android:padding="4dp"
                 android:inputType="numberDecimal"
+                android:maxEms="3"
                 android:ems="3"
+
+                android:background="@drawable/border_edit_text_background"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="@+id/textView6"
-                app:layout_constraintStart_toEndOf="@+id/textView6" android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView6"/>
+                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                app:layout_constraintStart_toStartOf="@+id/edit_text_weight"
+                app:layout_constraintEnd_toEndOf="@+id/edit_text_weight" android:hint="0"/>
         <TextView
                 android:text="Reps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintEnd_toEndOf="@+id/textView4" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView4"
-                android:id="@+id/textView6" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:id="@+id/textView6"
+                android:textSize="24sp"/>
+        <TextView
+                android:text="Kg/Lb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:id="@+id/textView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                android:layout_marginBottom="8dp" app:layout_constraintVertical_bias="1.0"
+                android:layout_marginTop="8dp" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_decrement"
+                android:id="@+id/button_sets_decrement"
+                app:layout_constraintTop_toTopOf="@+id/text_view_sets"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_sets"
+                app:layout_constraintStart_toEndOf="@+id/text_view_sets"
+                android:layout_marginStart="8dp" style="@android:style/Widget.Holo.ImageButton"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_decrement"
+                android:id="@+id/button_reps_decrement"
+                app:layout_constraintStart_toEndOf="@+id/text_view_reps"
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@+id/text_view_reps"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_reps"
+                style="@android:style/Widget.Holo.ImageButton"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_increment"
+                android:id="@+id/button_sets_increment"
+                app:layout_constraintTop_toTopOf="@+id/button_sets_decrement"
+                app:layout_constraintBottom_toBottomOf="@+id/button_sets_decrement"
+                app:layout_constraintStart_toEndOf="@+id/button_sets_decrement"
+                android:layout_marginStart="4dp"
+                style="@android:style/Widget.Holo.ImageButton"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_increment"
+                android:id="@+id/button_reps_increment"
+                app:layout_constraintStart_toEndOf="@+id/button_reps_decrement"
+                android:layout_marginStart="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/button_reps_decrement"
+                app:layout_constraintTop_toTopOf="@+id/button_reps_decrement"
+                style="@android:style/Widget.Holo.ImageButton"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.cardview.widget.CardView>

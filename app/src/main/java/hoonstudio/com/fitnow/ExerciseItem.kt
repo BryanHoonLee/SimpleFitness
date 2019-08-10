@@ -17,5 +17,6 @@ import androidx.room.PrimaryKey
 data class ExerciseItem(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Long = 0,
                         @ColumnInfo(name = "exercise_item_category_id") var exerciseItemCategoryId: Long,
                         @ColumnInfo(name = "exercise_name") var exerciseName: String,
+                        @ColumnInfo(name = "weight") var weight: Double,
                         @ColumnInfo(name = "sets") var sets: Int,
                         @ColumnInfo(name = "reps") var reps: Int)

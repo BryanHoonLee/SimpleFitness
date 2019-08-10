@@ -9,7 +9,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 
-class AddExerciseActivity : AppCompatActivity() {
+class AddExerciseItemActivity : AppCompatActivity() {
     private lateinit var editTextExercise: EditText
 
     companion object{

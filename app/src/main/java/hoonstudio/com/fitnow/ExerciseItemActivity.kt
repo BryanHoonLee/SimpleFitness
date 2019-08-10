@@ -34,7 +34,7 @@ class ExerciseItemActivity : AppCompatActivity() {
 
         var buttonAddExercise = findViewById<FloatingActionButton>(R.id.button_add_exercise)
         buttonAddExercise.setOnClickListener(View.OnClickListener {
-            intent = Intent(this, AddExerciseActivity::class.java)
+            intent = Intent(this, AddExerciseItemActivity::class.java)
             startActivityForResult(intent, ExerciseItemActivity.ADD_EXERCISE_REQUEST)
         })
 
@@ -62,12 +62,12 @@ class ExerciseItemActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == ADD_EXERCISE_REQUEST && resultCode == Activity.RESULT_OK){
-            var exerciseName = data!!.getStringExtra(AddExerciseActivity.EXTRA_EXERCISE_NAME)
+            var exerciseName = data!!.getStringExtra(AddExerciseItemActivity.EXTRA_EXERCISE_NAME)
 
 
             Log.d("ExerciseItemActivity", categoryId.toString())
 
-            var exerciseItem= ExerciseItem(0, categoryId, exerciseName, 0, 0)
+            var exerciseItem= ExerciseItem(0, categoryId, exerciseName, 0.0,0, 0)
             exerciseItemViewModel.insert(exerciseItem)
 
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT)

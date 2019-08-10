@@ -9,14 +9,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ExerciseItemActivity">
+        <activity android:name=".ExerciseItemActivity"
+        android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
                 android:name=".AddCategoryActivity"
                 android:parentActivityName=".ExerciseCategoryActivity"
                 android:windowSoftInputMode="stateVisible">
         </activity>
-        <activity android:name=".AddExerciseActivity"
+        <activity android:name=".AddExerciseItemActivity"
                   android:parentActivityName=".ExerciseItemActivity"
                   android:windowSoftInputMode="stateVisible">
         </activity>
