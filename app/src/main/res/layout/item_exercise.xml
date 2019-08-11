@@ -53,7 +53,7 @@
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:id="@+id/text_view_sets"
+                android:id="@+id/edit_text_sets"
                 android:inputType="numberDecimal"
                 android:ems="3"
                 android:padding="4dp"
@@ -86,12 +86,11 @@
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:id="@+id/text_view_reps"
+                android:id="@+id/edit_text_reps"
                 android:padding="4dp"
                 android:inputType="numberDecimal"
                 android:maxEms="3"
                 android:ems="3"
-
                 android:background="@drawable/border_edit_text_background"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"

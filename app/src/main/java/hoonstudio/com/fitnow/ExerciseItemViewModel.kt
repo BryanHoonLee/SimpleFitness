@@ -15,6 +15,10 @@ class ExerciseItemViewModel(application : Application) : AndroidViewModel(applic
         exerciseItemRepository.insert(exerciseItem)
     }
 
+    fun update(exerciseItem: ExerciseItem){
+        exerciseItemRepository.update(exerciseItem)
+    }
+
     fun getAllExerciseItemById(exerciseCategoryId: Long): LiveData<List<ExerciseItem>>{
         return exerciseItemRepository.getAllExerciseItemById(exerciseCategoryId)
     }

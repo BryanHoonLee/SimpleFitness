@@ -1,16 +1,16 @@
 package hoonstudio.com.fitnow
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ExerciseItemDao{
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(exerciseItem: ExerciseItem)
+
+    @Update
+    suspend fun update(exerciseItem: ExerciseItem)
 
     @Query("SELECT * FROM exercise_item_table")
     fun getAll(): LiveData<List<ExerciseItem>>

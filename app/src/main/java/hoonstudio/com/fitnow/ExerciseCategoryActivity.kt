@@ -33,7 +33,6 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
 
     override fun onCategoryClick(position: Int) {
         var categoryId = adapter.getExerciseCategoryAt(position).id
-        Log.d("ExerciseItemActivity3", (categoryId.toString()))
         var intent = Intent(this, ExerciseItemActivity::class.java)
         intent.putExtra(CATEGORY_ID_EXTRA, categoryId)
         startActivity(intent)
