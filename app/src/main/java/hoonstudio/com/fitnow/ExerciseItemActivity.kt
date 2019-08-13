@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -16,24 +18,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ExerciseItemActivity : AppCompatActivity() {
+class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExerciseItemListener {
     private lateinit var exerciseItemViewModel: ExerciseItemViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ExerciseItemAdapter
 
-    private lateinit var buttonSetsIncrement: Button
-    private lateinit var buttonSetsDecrement: Button
-    private lateinit var buttonRepsIncrement: Button
-    private lateinit var buttonRepsDecrement: Button
-    private lateinit var buttonWeightIncrement: Button
-    private lateinit var buttonWeightDecrement: Button
-    private lateinit var editTextSets: EditText
-    private lateinit var editTextReps: EditText
-    private lateinit var editTextWeight: EditText
+//    private lateinit var buttonSetsIncrement: Button
+//    private lateinit var buttonSetsDecrement: Button
+//    private lateinit var buttonRepsIncrement: Button
+//    private lateinit var buttonRepsDecrement: Button
+//    private lateinit var buttonWeightIncrement: Button
+//    private lateinit var buttonWeightDecrement: Button
+//    private lateinit var editTextSets: EditText
+//    private lateinit var editTextReps: EditText
+//    private lateinit var editTextWeight: EditText
     private lateinit var buttonAddExercise: FloatingActionButton
+    private lateinit var currentExerciseItem: ExerciseItem
 
     private  var categoryId: Long = 0
-
 
     companion object{
         private val ADD_EXERCISE_REQUEST = 1
@@ -44,7 +46,10 @@ class ExerciseItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise)
 
+        Log.d("ExerciseItemActivity", "Before initViews")
         initViews()
+        Log.d("ExerciseItemActivity", "After initViews")
+        setViews()
         initRecyclerView()
 
         categoryId = intent.getLongExtra(CATEGORY_ID_EXTRA, 0)
@@ -70,22 +75,19 @@ class ExerciseItemActivity : AppCompatActivity() {
         }
     }
 
+    override fun onExerciseItemClick(position: Int) {
+        currentExerciseItem = adapter.getExerciseItemAt(position)
+    }
+
     private fun initViews(){
         buttonAddExercise = findViewById<FloatingActionButton>(R.id.button_add_exercise)
+    }
+
+    private fun setViews(){
         buttonAddExercise.setOnClickListener(View.OnClickListener {
             intent = Intent(this, AddExerciseItemActivity::class.java)
             startActivityForResult(intent, ExerciseItemActivity.ADD_EXERCISE_REQUEST)
         })
-
-        buttonRepsDecrement = findViewById(R.id.button_reps_decrement)
-        buttonRepsIncrement = findViewById(R.id.button_reps_increment)
-        buttonSetsDecrement = findViewById(R.id.button_sets_decrement)
-        buttonSetsIncrement = findViewById(R.id.button_sets_increment)
-        buttonWeightDecrement = findViewById(R.id.button_weight_decrement)
-        buttonWeightIncrement = findViewById(R.id.button_weight_increment)
-        editTextReps = findViewById(R.id.edit_text_reps)
-        editTextSets = findViewById(R.id.edit_text_sets)
-        editTextWeight = findViewById(R.id.edit_text_weight)
     }
 
     private fun initRecyclerView(){
@@ -93,7 +95,7 @@ class ExerciseItemActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
-        adapter= ExerciseItemAdapter()
+        adapter= ExerciseItemAdapter(this)
         recyclerView.adapter = adapter
     }
 }

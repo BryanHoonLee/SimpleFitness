@@ -21,12 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.OnCategoryListener{
+class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.OnCategoryListener {
     private lateinit var exerciseCategoryViewModel: ExerciseCategoryViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ExerciseCategoryAdapter
 
-    companion object{
+    companion object {
         private val ADD_EXERCISE_CATEGORY_REQUEST = 1
         private val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.CATEGORY_ID_EXTRA"
     }
@@ -48,19 +48,19 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
             startActivityForResult(intent, ADD_EXERCISE_CATEGORY_REQUEST)
         })
 
-       initRecyclerView()
+        initRecyclerView()
 
-        // you pass an activity or fragment in .of so that the view model knows which lifecycle it has to be scoped to.
-        // in this case the android system will destroy this view model when this activity is finished.
+/*         you pass an activity or fragment in .of so that the view model knows which lifecycle it has to be scoped to.
+         in this case the android system will destroy this view model when this activity is finished.*/
         exerciseCategoryViewModel = ViewModelProviders.of(this).get(ExerciseCategoryViewModel::class.java)
-        if(exerciseCategoryViewModel.isAllExerciseCategoryInit) {
-            // since getAll returns live data, we can use the live data method observe.
-            // takes 2 parameters. First is the lifeCycleOwner. You pass either activity or fragment. This is needed since
-            // live data is lifecycle aware and it will only update the activity/fragment if it is in the foreground and also
-            // clean up the reference to the activity/fragment when the activity/fragment is destroyed.
-            // This avoids memory leaks and crashes.
-            //
-            // Second parameter takes in an observer which you can pass as an anonymous inner class.
+        if (exerciseCategoryViewModel.isAllExerciseCategoryInit) {
+/*             since getAll returns live data, we can use the live data method observe.
+             takes 2 parameters. First is the lifeCycleOwner. You pass either activity or fragment. This is needed since
+             live data is lifecycle aware and it will only update the activity/fragment if it is in the foreground and also
+            clean up the reference to the activity/fragment when the activity/fragment is destroyed.
+             This avoids memory leaks and crashes.
+
+             Second parameter takes in an observer which you can pass as an anonymous inner class.*/
             exerciseCategoryViewModel.getAllExerciseCategory().observe(this, Observer<List<ExerciseCategory>> {
                 // update recyclerview
                 adapter.setExerciseCategoryList(it)
@@ -76,13 +76,13 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
      * Constructs an ItemTouchHelper() that attaches to the recycler view so items can slide to the left
      * for a delete function
      */
-    private fun initTouchHelper(){
+    private fun initTouchHelper() {
         val background = ColorDrawable()
         val deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete)
         val intrinsicWidth = deleteIcon!!.intrinsicWidth
         val intrinsicHeight = deleteIcon!!.intrinsicHeight
 
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -139,18 +139,18 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
      * Creates an Alert Dialog to ask for user confirmation when deleting a category
      * @param viewHolder    Need the position of the item from the current viewholder
      */
-    private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder){
+    private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder) {
         val builder = AlertDialog.Builder(this@ExerciseCategoryActivity)
         builder.setCancelable(false)
         builder.setTitle("Delete Confirmation")
         builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseCategoryAt(viewHolder.adapterPosition).category} category?")
-        builder.setPositiveButton("Delete"){_,_ ->
+        builder.setPositiveButton("Delete") { _, _ ->
             exerciseCategoryViewModel.delete(adapter.getExerciseCategoryAt(viewHolder.adapterPosition))
             Toast.makeText(this@ExerciseCategoryActivity, "Deleted", Toast.LENGTH_SHORT).show()
 
         }
 
-        builder.setNeutralButton("Cancel"){_,_ ->
+        builder.setNeutralButton("Cancel") { _, _ ->
             adapter.notifyItemChanged(viewHolder.adapterPosition)
         }
 
@@ -162,26 +162,26 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
     /**
      *
      */
-    private fun initRecyclerView(){
-        recyclerView= findViewById(R.id.recycler_view)
+    private fun initRecyclerView() {
+        recyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
-        adapter= ExerciseCategoryAdapter(this)
+        adapter = ExerciseCategoryAdapter(this)
         recyclerView.adapter = adapter
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == ADD_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK){
+        if (requestCode == ADD_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
             var categoryName = data!!.getStringExtra(AddCategoryActivity.EXTRA_CATEGORY_NAME)
 
             var exerciseCategoryActivity = ExerciseCategory(0, categoryName)
             exerciseCategoryViewModel.insert(exerciseCategoryActivity)
 
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT)
-        }else{
+        } else {
             Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT)
         }
     }
@@ -192,14 +192,14 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean  = when (item!!.itemId){
-            R.id.delete_all_categories -> {
-                exerciseCategoryViewModel.deleteAllExerciseCategory()
-                Toast.makeText(this, "Deleted All Categories", Toast.LENGTH_SHORT).show()
-                true
-            }
-            else -> {
-                 super.onOptionsItemSelected(item)
-            }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item!!.itemId) {
+        R.id.delete_all_categories -> {
+            exerciseCategoryViewModel.deleteAllExerciseCategory()
+            Toast.makeText(this, "Deleted All Categories", Toast.LENGTH_SHORT).show()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 }
