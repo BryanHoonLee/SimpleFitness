@@ -6,5 +6,6 @@
     <color name="red">#EC1919</color>
     <color name="bg_row_background">#F5859F</color>
     <color name="white">#fff</color>
+    <color name="edit_icon_color">#8BBD4B</color>
 
 </resources>

@@ -28,7 +28,7 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
 
     companion object {
         private val ADD_EXERCISE_CATEGORY_REQUEST = 1
-        private val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.CATEGORY_ID_EXTRA"
+        val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.CATEGORY_ID_EXTRA"
     }
 
     override fun onCategoryClick(position: Int) {
@@ -110,9 +110,9 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
 
                 background.color = ResourcesCompat.getColor(resources, R.color.bg_row_background, null)
                 background.setBounds(
-                    itemView.right + dX.toInt(),
-                    itemView.top,
                     itemView.right,
+                    itemView.top,
+                    itemView.left,
                     itemView.bottom
                 )
                 background.draw(c)

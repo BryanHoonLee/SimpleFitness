@@ -19,6 +19,10 @@ class ExerciseItemViewModel(application : Application) : AndroidViewModel(applic
         exerciseItemRepository.update(exerciseItem)
     }
 
+    fun delete(exerciseItem: ExerciseItem){
+        exerciseItemRepository.delete(exerciseItem)
+    }
+
     fun getAllExerciseItemById(exerciseCategoryId: Long): LiveData<List<ExerciseItem>>{
         return exerciseItemRepository.getAllExerciseItemById(exerciseCategoryId)
     }

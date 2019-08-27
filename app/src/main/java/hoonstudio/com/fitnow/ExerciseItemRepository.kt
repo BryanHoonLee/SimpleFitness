@@ -24,6 +24,11 @@ class ExerciseItemRepository(application: Application){
         UpdateExerciseItem(exerciseItemDao).update(exerciseItem)
     }
 
+    fun delete(exerciseItem: ExerciseItem){
+        DeleteExerciseItem(exerciseItemDao).delete(exerciseItem)
+
+    }
+
     fun getAllExerciseItemById(exerciseCategoryId: Long): LiveData<List<ExerciseItem>>{
         return GetAllExerciseItemById(exerciseItemDao).getAllExerciseItemById(exerciseCategoryId)
     }
@@ -40,6 +45,12 @@ class ExerciseItemRepository(application: Application){
         private class UpdateExerciseItem internal constructor(private val exerciseItemDao: ExerciseItemDao?){
             fun update(exerciseItem: ExerciseItem) = scope.launch {
                 exerciseItemDao!!.update(exerciseItem)
+            }
+        }
+
+        private class DeleteExerciseItem internal constructor(private val exerciseItemDao: ExerciseItemDao?){
+            fun delete(exerciseItem: ExerciseItem) = scope.launch {
+                exerciseItemDao!!.delete(exerciseItem)
             }
         }
 

@@ -2,18 +2,19 @@ package hoonstudio.com.fitnow
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,11 +36,11 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
     private lateinit var buttonAddExercise: FloatingActionButton
     private lateinit var currentExerciseItem: ExerciseItem
 
-    private  var categoryId: Long = 0
+    private var categoryId: Long = 0
 
     companion object{
         private val ADD_EXERCISE_REQUEST = 1
-        private val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.CATEGORY_ID_EXTRA"
+        private val EDIT_EXERCISE_REQUEST = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +52,9 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         Log.d("ExerciseItemActivity", "After initViews")
         setViews()
         initRecyclerView()
+        initTouchHelper()
 
-        categoryId = intent.getLongExtra(CATEGORY_ID_EXTRA, 0)
+        categoryId = intent.getLongExtra(ExerciseCategoryActivity.CATEGORY_ID_EXTRA, 0)
 
         exerciseItemViewModel = ViewModelProviders.of(this).get(ExerciseItemViewModel::class.java)
         exerciseItemViewModel.getAllExerciseItemById(categoryId).observe(this, Observer<List<ExerciseItem>> {
@@ -83,10 +85,135 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         buttonAddExercise = findViewById<FloatingActionButton>(R.id.button_add_exercise)
     }
 
+    private fun initTouchHelper() {
+        val background = ColorDrawable()
+        val deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete)
+        val editIcon = ContextCompat.getDrawable(this, R.drawable.ic_edit)
+        val editIconIntrinsicWidth = editIcon!!.intrinsicWidth
+        val editIconIntrinsicHeight = editIcon!!.intrinsicHeight
+        val deleteIconIntrinsicWidth = deleteIcon!!.intrinsicWidth
+        val deleteIconIntrinsicHeight = deleteIcon!!.intrinsicHeight
+0
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if(direction == ItemTouchHelper.LEFT){
+                    initAlertBuilder(viewHolder)
+                }else if(direction == ItemTouchHelper.RIGHT){
+                    startEditActivity(viewHolder)
+                    adapter.notifyItemChanged(viewHolder.adapterPosition)
+                }
+
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+
+                if(dX < 0) {
+                    val itemView = viewHolder.itemView
+                    val itemHeight = itemView.bottom - itemView.top
+
+                    background.color = ResourcesCompat.getColor(resources, R.color.bg_row_background, null)
+                    background.setBounds(
+                        itemView.right,
+                        itemView.top,
+                        itemView.left,
+                        itemView.bottom
+                    )
+                    background.draw(c)
+
+                    val deleteIconTop = itemView.top + (itemHeight - deleteIconIntrinsicHeight) / 2
+                    val deleteIconMargin = (itemHeight - deleteIconIntrinsicHeight) / 2
+                    val deleteIconLeft = itemView.right - deleteIconMargin - deleteIconIntrinsicWidth
+                    val deleteIconRight = itemView.right - deleteIconMargin
+                    val deleteIconBottom = deleteIconTop + deleteIconIntrinsicHeight
+
+                    deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+                    deleteIcon.draw(c)
+
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                }else{
+                    val itemView = viewHolder.itemView
+                    val itemHeight = itemView.bottom - itemView.top
+
+                    background.color = ResourcesCompat.getColor(resources, R.color.edit_icon_color, null)
+                    background.setBounds(
+                        itemView.left,
+                        itemView.top,
+                        itemView.right ,
+                        itemView.bottom
+                    )
+                    background.draw(c)
+
+                    val editIconTop = itemView.top + (itemHeight - editIconIntrinsicHeight) / 2
+                    val editIconMargin = (itemHeight - editIconIntrinsicHeight) / 2
+                    val editIconLeft = itemView.left + editIconMargin
+                    val editIconRight = itemView.left + editIconMargin + editIconIntrinsicWidth
+                    val editIconBottom = editIconTop + deleteIconIntrinsicHeight
+
+                    editIcon.setBounds(editIconLeft, editIconTop, editIconRight, editIconBottom)
+                    editIcon.draw(c)
+
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                }
+
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    /**
+     * Creates an Alert Dialog to ask for user confirmation when deleting a category
+     * @param viewHolder    Need the position of the item from the current viewholder
+     */
+    private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder) {
+        val builder = AlertDialog.Builder(this@ExerciseItemActivity)
+        builder.setCancelable(false)
+        builder.setTitle("Delete Confirmation")
+        builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName} category?")
+        builder.setPositiveButton("Delete") { _, _ ->
+            exerciseItemViewModel.delete(adapter.getExerciseItemAt(viewHolder.adapterPosition))
+            Toast.makeText(this@ExerciseItemActivity, "Deleted", Toast.LENGTH_SHORT).show()
+        }
+
+        builder.setNeutralButton("Cancel") { _, _ ->
+            adapter.notifyItemChanged(viewHolder.adapterPosition)
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    private fun startEditActivity(viewHolder: RecyclerView.ViewHolder){
+        intent = Intent(this, EditExerciseItemActivity::class.java)
+        var exerciseId = adapter.getExerciseItemAt(viewHolder.adapterPosition).id
+        var exerciseName = adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName
+        intent.putExtra(EditExerciseItemActivity.EXERCISE_ID_EXTRA, exerciseId)
+        intent.putExtra(EditExerciseItemActivity.EXERCISE_NAME_EXTRA, exerciseName)
+        intent.putExtra(EditExerciseItemActivity.EXERCISE_CATEGORY_ID_EXTRA, categoryId)
+        startActivityForResult(intent, EDIT_EXERCISE_REQUEST)
+    }
+
     private fun setViews(){
         buttonAddExercise.setOnClickListener(View.OnClickListener {
             intent = Intent(this, AddExerciseItemActivity::class.java)
-            startActivityForResult(intent, ExerciseItemActivity.ADD_EXERCISE_REQUEST)
+            startActivityForResult(intent, ADD_EXERCISE_REQUEST)
         })
     }
 

@@ -12,6 +12,9 @@ interface ExerciseItemDao{
     @Update
     suspend fun update(exerciseItem: ExerciseItem)
 
+    @Delete
+    suspend fun delete(exerciseItem: ExerciseItem)
+
     @Query("SELECT * FROM exercise_item_table")
     fun getAll(): LiveData<List<ExerciseItem>>
 

@@ -13,7 +13,7 @@ class AddExerciseItemActivity : AppCompatActivity() {
     private lateinit var editTextExercise: EditText
 
     companion object{
-         val EXTRA_EXERCISE_NAME = "hoonstudio.com.fitnow.EXTRA_CATEGORY_NAME"
+         val EXTRA_EXERCISE_NAME = "hoonstudio.com.fitnow.EXTRA_EXERCISE_NAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
