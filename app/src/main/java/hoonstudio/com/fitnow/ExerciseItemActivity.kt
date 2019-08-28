@@ -30,9 +30,9 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 //    private lateinit var buttonRepsDecrement: Button
 //    private lateinit var buttonWeightIncrement: Button
 //    private lateinit var buttonWeightDecrement: Button
-//    private lateinit var editTextSets: EditText
-//    private lateinit var editTextReps: EditText
-//    private lateinit var editTextWeight: EditText
+//    private lateinit var textViewSets: EditText
+//    private lateinit var textViewReps: EditText
+//    private lateinit var textViewWeight: EditText
     private lateinit var buttonAddExercise: FloatingActionButton
     private lateinit var currentExerciseItem: ExerciseItem
 
@@ -79,6 +79,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 
     override fun onExerciseItemClick(position: Int) {
         currentExerciseItem = adapter.getExerciseItemAt(position)
+        startEditActivity(currentExerciseItem)
     }
 
     private fun initViews(){
@@ -107,7 +108,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
                 if(direction == ItemTouchHelper.LEFT){
                     initAlertBuilder(viewHolder)
                 }else if(direction == ItemTouchHelper.RIGHT){
-                    startEditActivity(viewHolder)
+                    startEditActivity(adapter.getExerciseItemAt(viewHolder.adapterPosition))
                     adapter.notifyItemChanged(viewHolder.adapterPosition)
                 }
 
@@ -200,10 +201,10 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         dialog.show()
     }
 
-    private fun startEditActivity(viewHolder: RecyclerView.ViewHolder){
+    private fun startEditActivity(exerciseItem: ExerciseItem){
         intent = Intent(this, EditExerciseItemActivity::class.java)
-        var exerciseId = adapter.getExerciseItemAt(viewHolder.adapterPosition).id
-        var exerciseName = adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName
+        var exerciseId = exerciseItem.id
+        var exerciseName = exerciseItem.exerciseName
         intent.putExtra(EditExerciseItemActivity.EXERCISE_ID_EXTRA, exerciseId)
         intent.putExtra(EditExerciseItemActivity.EXERCISE_NAME_EXTRA, exerciseName)
         intent.putExtra(EditExerciseItemActivity.EXERCISE_CATEGORY_ID_EXTRA, categoryId)

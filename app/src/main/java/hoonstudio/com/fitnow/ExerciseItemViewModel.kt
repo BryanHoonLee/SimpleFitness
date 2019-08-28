@@ -3,6 +3,9 @@ package hoonstudio.com.fitnow
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 class ExerciseItemViewModel(application : Application) : AndroidViewModel(application){
     private var exerciseItemRepository: ExerciseItemRepository
@@ -21,6 +24,10 @@ class ExerciseItemViewModel(application : Application) : AndroidViewModel(applic
 
     fun delete(exerciseItem: ExerciseItem){
         exerciseItemRepository.delete(exerciseItem)
+    }
+
+    suspend fun getExerciseItemById(exerciseItemId: Long): ExerciseItem{
+        return exerciseItemRepository.getExerciseById(exerciseItemId)
     }
 
     fun getAllExerciseItemById(exerciseCategoryId: Long): LiveData<List<ExerciseItem>>{

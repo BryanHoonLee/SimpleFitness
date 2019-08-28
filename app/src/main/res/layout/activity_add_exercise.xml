@@ -9,7 +9,7 @@
         tools:context=".AddCategoryActivity">
 
     <EditText
-            android:id="@+id/edit_text_exercise"
+            android:id="@+id/edit_text_exercise_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Category Name"

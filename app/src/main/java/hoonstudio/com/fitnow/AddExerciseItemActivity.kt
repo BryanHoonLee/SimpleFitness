@@ -20,7 +20,7 @@ class AddExerciseItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_exercise)
 
-        editTextExercise = findViewById<EditText>(R.id.edit_text_exercise)
+        editTextExercise = findViewById<EditText>(R.id.edit_text_exercise_name)
 
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
         setTitle("Add Exercise")

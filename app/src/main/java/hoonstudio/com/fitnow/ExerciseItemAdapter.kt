@@ -1,16 +1,10 @@
 package hoonstudio.com.fitnow
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener): RecyclerView.Adapter<ExerciseItemAdapter.ExerciseItemViewHolder>(){
     private var exerciseItemList = emptyList<ExerciseItem>()
@@ -43,29 +37,23 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener): Recyc
     override fun onBindViewHolder(holder: ExerciseItemViewHolder, position: Int) {
         var current = exerciseItemList.get(position)
         holder.textViewExercise.text = current.exerciseName
-        holder.editTextSets.setText(current.sets.toString())
-        holder.editTextReps.setText(current.reps.toString())
-        holder.editTextWeight.setText(current.weight.toString())
+        holder.textViewSets.setText(current.sets.toString())
+        holder.textViewReps.setText(current.reps.toString())
+        holder.textViewWeight.setText(current.weight.toString())
 
     }
 
     class ExerciseItemViewHolder(itemView: View, onExerciseItemListener: OnExerciseItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         lateinit var textViewExercise: TextView
-        lateinit var buttonSetsIncrement: ImageButton
-        lateinit var buttonSetsDecrement: ImageButton
-        lateinit var buttonRepsIncrement: ImageButton
-        lateinit var buttonRepsDecrement: ImageButton
-        lateinit var buttonWeightIncrement: ImageButton
-        lateinit var buttonWeightDecrement: ImageButton
-        lateinit var editTextSets: EditText
-        lateinit var editTextReps: EditText
-        lateinit var editTextWeight: EditText
+        lateinit var textViewSets: TextView
+        lateinit var textViewReps: TextView
+        lateinit var textViewWeight: TextView
 
         var onExerciseItemListener: OnExerciseItemListener
 
         init{
             initViews()
-
+            itemView.setOnClickListener(this)
             this.onExerciseItemListener = onExerciseItemListener
         }
 
@@ -74,18 +62,10 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener): Recyc
         }
 
         private fun initViews(){
-            textViewExercise = itemView.findViewById(R.id.text_view_exercise)
-            buttonRepsDecrement = itemView.findViewById(R.id.button_reps_decrement)
-            buttonRepsIncrement = itemView.findViewById(R.id.button_reps_increment)
-            buttonSetsDecrement = itemView.findViewById(R.id.button_sets_decrement)
-            buttonSetsIncrement = itemView.findViewById(R.id.button_sets_increment)
-            buttonWeightDecrement = itemView.findViewById(R.id.button_weight_decrement)
-            buttonWeightIncrement = itemView.findViewById(R.id.button_weight_increment)
-            editTextReps = itemView.findViewById(R.id.edit_text_reps)
-            editTextSets = itemView.findViewById(R.id.edit_text_sets)
-            editTextWeight = itemView.findViewById(R.id.edit_text_weight)
-
-
+            textViewExercise = itemView.findViewById(R.id.edit_text_exercise_name)
+            textViewReps = itemView.findViewById(R.id.edit_text_reps)
+            textViewSets = itemView.findViewById(R.id.edit_text_sets)
+            textViewWeight = itemView.findViewById(R.id.text_view_weight)
         }
     }
 

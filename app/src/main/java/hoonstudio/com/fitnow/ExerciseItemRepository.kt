@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExerciseItemRepository(application: Application){
 
@@ -29,6 +30,10 @@ class ExerciseItemRepository(application: Application){
 
     }
 
+    suspend fun getExerciseById(exerciseItemId: Long): ExerciseItem{
+        return GetExerciseItemById(exerciseItemDao).getExerciseItemById(exerciseItemId)
+    }
+
     fun getAllExerciseItemById(exerciseCategoryId: Long): LiveData<List<ExerciseItem>>{
         return GetAllExerciseItemById(exerciseItemDao).getAllExerciseItemById(exerciseCategoryId)
     }
@@ -51,6 +56,14 @@ class ExerciseItemRepository(application: Application){
         private class DeleteExerciseItem internal constructor(private val exerciseItemDao: ExerciseItemDao?){
             fun delete(exerciseItem: ExerciseItem) = scope.launch {
                 exerciseItemDao!!.delete(exerciseItem)
+            }
+        }
+
+        private class GetExerciseItemById internal constructor(private val exerciseItemDao: ExerciseItemDao?){
+            suspend fun getExerciseItemById(exerciseItemId: Long): ExerciseItem{
+                return withContext(Dispatchers.IO){
+                    exerciseItemDao!!.getExerciseById(exerciseItemId)
+                }
             }
         }
 
