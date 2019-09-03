@@ -71,9 +71,11 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
             var exerciseItem= ExerciseItem(0, categoryId, exerciseName, 0.0,0, 0)
             exerciseItemViewModel.insert(exerciseItem)
 
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+        }else if(requestCode == EDIT_EXERCISE_REQUEST && resultCode == Activity.RESULT_OK){
+            Toast.makeText(this, "Edit Saved", Toast.LENGTH_SHORT).show()
         }else{
-            Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT).show()
         }
     }
 

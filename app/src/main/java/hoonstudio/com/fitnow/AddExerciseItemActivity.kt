@@ -10,7 +10,10 @@ import android.widget.EditText
 import android.widget.Toast
 
 class AddExerciseItemActivity : AppCompatActivity() {
-    private lateinit var editTextExercise: EditText
+    private lateinit var editTextExerciseName: EditText
+    private lateinit var editTextSets: EditText
+    private lateinit var editTextReps: EditText
+    private lateinit var editTextWeight: EditText
 
     companion object{
          val EXTRA_EXERCISE_NAME = "hoonstudio.com.fitnow.EXTRA_EXERCISE_NAME"
@@ -20,14 +23,17 @@ class AddExerciseItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_exercise)
 
-        editTextExercise = findViewById<EditText>(R.id.edit_text_exercise_name)
+        editTextExerciseName = findViewById(R.id.edit_text_exercise_name)
+        editTextSets = findViewById(R.id.edit_text_sets)
+        editTextReps = findViewById(R.id.edit_text_reps)
+        editTextWeight = findViewById(R.id.edit_text_weight)
 
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
         setTitle("Add Exercise")
     }
 
     private fun saveExercise(){
-        var exerciseName = editTextExercise.text.toString()
+        var exerciseName = editTextExerciseName.text.toString()
 
         if(exerciseName.trim().isEmpty()){
             Toast.makeText(this, "Please Insert An Exercise Name", Toast.LENGTH_SHORT)
