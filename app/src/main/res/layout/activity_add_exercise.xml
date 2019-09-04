@@ -73,7 +73,7 @@
             android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="@+id/textView"
             app:layout_constraintBottom_toBottomOf="@+id/textView" android:hint="0"/>
-    
+
     <TextView
             android:text="Sets"
             android:layout_width="0dp"
