@@ -38,7 +38,7 @@ class ExerciseCategoryAdapter(onCategoryListener: OnCategoryListener): RecyclerV
 
     override fun onBindViewHolder(holder: ExerciseCategoryHolder, position: Int) {
         var current = exerciseCategoryList.get(position)
-        holder.textViewCategory.text = current.category
+        holder.textViewCategory.text = current.categoryName
     }
 
     class ExerciseCategoryHolder(itemView: View, onCategoryListener: OnCategoryListener): RecyclerView.ViewHolder(itemView), View.OnClickListener{

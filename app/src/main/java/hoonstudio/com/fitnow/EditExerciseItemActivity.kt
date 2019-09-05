@@ -1,7 +1,6 @@
 package hoonstudio.com.fitnow
 
 import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -9,7 +8,6 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,36 +37,31 @@ class EditExerciseItemActivity : AppCompatActivity() {
     protected val uiScope = CoroutineScope(Dispatchers.Main + job)
 
     companion object {
-        val EXERCISE_ID_EXTRA = "hoonstudio.com.fitnow.EditExerciseItemActivity.EXERCISE_ID_EXTRA"
-        val EXERCISE_NAME_EXTRA = "hoonstudio.com.fitnow.EditExerciseItemActivity.EXERCISE_NAME_EXTRA"
-        val EXERCISE_CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.EditExerciseItemActivity.EXERCISE_CATEGORY_ID_EXTRA"
+        val EXTRA_EXERCISE_ID = "hoonstudio.com.fitnow.EditExerciseItemActivity.EXTRA_EXERCISE_ID"
+        val EXTRA_EXERCISE_NAME = "hoonstudio.com.fitnow.EditExerciseItemActivity.EXTRA_EXERCISE_NAME"
+        val EXTRA_EXERCISE_CATEGORY_ID = "hoonstudio.com.fitnow.EditExerciseItemActivity.EXTRA_EXERCISE_CATEGORY_ID"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_exercise_item)
 
-        exerciseId = intent.getLongExtra(EXERCISE_ID_EXTRA, 0)
-        exerciseCategoryId = intent.getLongExtra(EXERCISE_CATEGORY_ID_EXTRA, 0)
-        exerciseName = intent.getStringExtra(EXERCISE_NAME_EXTRA)
+        exerciseId = intent.getLongExtra(EXTRA_EXERCISE_ID, 0)
+        exerciseCategoryId = intent.getLongExtra(EXTRA_EXERCISE_CATEGORY_ID, 0)
+        exerciseName = intent.getStringExtra(EXTRA_EXERCISE_NAME)
 
         exerciseItemViewModel = ViewModelProviders.of(this).get(ExerciseItemViewModel::class.java)
-        exerciseItemViewModel.getAllExerciseItemById(exerciseCategoryId).observe(this, Observer<List<ExerciseItem>> {
-
-        })
 
         uiScope.launch {
             currentExercise = exerciseItemViewModel.getExerciseItemById(exerciseId)
-            initViews()
+            initView()
         }
-
-
 
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
         setTitle("Edit ${exerciseName}")
     }
 
-    fun initViews() {
+    fun initView() {
         editTextExerciseName = findViewById(R.id.edit_text_exercise_name)
         editTextSets = findViewById(R.id.edit_text_sets)
         editTextReps = findViewById(R.id.edit_text_reps)
@@ -84,10 +77,6 @@ class EditExerciseItemActivity : AppCompatActivity() {
         editTextSets.setText(currentExercise.sets.toString())
         editTextReps.setText(currentExercise.reps.toString())
         editTextWeight.setText(currentExercise.weight.toString())
-    }
-
-    fun setViews() {
-
     }
 
 

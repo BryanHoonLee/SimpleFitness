@@ -15,13 +15,18 @@ class AddExerciseItemActivity : AppCompatActivity() {
     private lateinit var editTextReps: EditText
     private lateinit var editTextWeight: EditText
 
-    companion object{
-         val EXTRA_EXERCISE_NAME = "hoonstudio.com.fitnow.EXTRA_EXERCISE_NAME"
+    private lateinit var categoryName: String
+
+    companion object {
+        val EXTRA_EXERCISE_NAME = "hoonstudio.com.fitnow.AddExerciseItemActivity.EXTRA_EXERCISE_NAME"
+        val EXTRA_CATEGORY_NAME = "hoonstudio.com.fitnow.AddExerciseItemActivity.EXTRA_CATEGORY_NAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_exercise)
+
+        categoryName = intent.getStringExtra(EXTRA_CATEGORY_NAME)
 
         editTextExerciseName = findViewById(R.id.edit_text_exercise_name)
         editTextSets = findViewById(R.id.edit_text_sets)
@@ -29,13 +34,13 @@ class AddExerciseItemActivity : AppCompatActivity() {
         editTextWeight = findViewById(R.id.edit_text_weight)
 
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
-        setTitle("Add Exercise")
+        setTitle("Add $categoryName Exercise")
     }
 
-    private fun saveExercise(){
+    private fun saveExercise() {
         var exerciseName = editTextExerciseName.text.toString()
 
-        if(exerciseName.trim().isEmpty()){
+        if (exerciseName.trim().isEmpty()) {
             Toast.makeText(this, "Please Insert An Exercise Name", Toast.LENGTH_SHORT)
             return
         }

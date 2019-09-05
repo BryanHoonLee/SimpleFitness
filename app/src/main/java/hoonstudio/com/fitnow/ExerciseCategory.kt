@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "exercise_category_table")
 data class ExerciseCategory(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Long,
-                            @ColumnInfo(name = "category") var category: String){
+                            @ColumnInfo(name = "categoryName") var categoryName: String){
 
 }

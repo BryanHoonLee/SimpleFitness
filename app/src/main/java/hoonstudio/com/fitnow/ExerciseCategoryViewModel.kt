@@ -37,6 +37,10 @@ class ExerciseCategoryViewModel (@NonNull application: Application) : AndroidVie
         exerciseCategoryRepository.deleteAllExerciseCategory()
     }
 
+    suspend fun getExerciseCategoryById(exerciseCategoryId: Long): ExerciseCategory{
+        return exerciseCategoryRepository.getExerciseCategoryById(exerciseCategoryId)
+    }
+
     fun getAllExerciseCategory(): LiveData<List<ExerciseCategory>>{
         return allExerciseCategory
     }

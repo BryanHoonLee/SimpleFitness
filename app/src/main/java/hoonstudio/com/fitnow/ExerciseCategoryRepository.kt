@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExerciseCategoryRepository{
 
@@ -28,7 +29,7 @@ class ExerciseCategoryRepository{
     }
 
     fun update(exerciseCategory: ExerciseCategory){
-
+        UpdateExerciseCategory(exerciseCategoryDao).update(exerciseCategory)
     }
 
     fun delete(exerciseCategory: ExerciseCategory){
@@ -39,6 +40,10 @@ class ExerciseCategoryRepository{
         DeleteAllExerciseCategory(exerciseCategoryDao).deleteAll()
     }
 
+    suspend fun getExerciseCategoryById(exerciseCategoryId: Long): ExerciseCategory{
+        return GetExerciseCategoryById(exerciseCategoryDao).getExerciseCategoryById(exerciseCategoryId)
+    }
+
     fun getAllExerciseCategory(): LiveData<List<ExerciseCategory>>{
         return allExerciseCategory
     }
@@ -47,10 +52,14 @@ class ExerciseCategoryRepository{
     companion object{
         private val scope = CoroutineScope(Dispatchers.Default)
         private class InsertExerciseCategory internal constructor(private val exerciseCategoryDao: ExerciseCategoryDao?){
-
-
             fun insert(exerciseCategory: ExerciseCategory) = scope.launch{
                 exerciseCategoryDao?.insert(exerciseCategory)
+            }
+        }
+
+        private class UpdateExerciseCategory internal constructor(private val exerciseCategoryDao: ExerciseCategoryDao?){
+            fun update(exerciseCategory: ExerciseCategory) = scope.launch {
+                exerciseCategoryDao?.update(exerciseCategory)
             }
         }
 
@@ -63,6 +72,15 @@ class ExerciseCategoryRepository{
         private class DeleteAllExerciseCategory internal constructor(private val exerciseCategoryDao: ExerciseCategoryDao?){
             fun deleteAll() = scope.launch {
                 exerciseCategoryDao?.deleteAllCategories()
+            }
+        }
+
+        private class GetExerciseCategoryById internal constructor(private val exerciseCategoryDao: ExerciseCategoryDao?){
+            suspend fun getExerciseCategoryById(exerciseCategoryId: Long): ExerciseCategory {
+                return withContext(Dispatchers.IO){
+                    exerciseCategoryDao!!.getExerciseCategoryById(exerciseCategoryId)
+                }
+
             }
         }
     }

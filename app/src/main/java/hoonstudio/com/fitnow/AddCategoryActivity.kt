@@ -13,14 +13,14 @@ class AddCategoryActivity : AppCompatActivity() {
     private lateinit var editTextCategoryName: EditText
 
     companion object{
-         val EXTRA_CATEGORY_NAME = "hoonstudio.com.fitnow.EXTRA_CATEGORY_NAME"
+         val EXTRA_CATEGORY_NAME = "hoonstudio.com.fitnow.AddCategoryActivity.EXTRA_CATEGORY_NAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_category)
 
-        editTextCategoryName = findViewById<EditText>(R.id.edit_text_category)
+        editTextCategoryName = findViewById<EditText>(R.id.edit_text_category_name)
 
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
         setTitle("Add Exercise Category")

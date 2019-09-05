@@ -37,29 +37,37 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
     private lateinit var currentExerciseItem: ExerciseItem
 
     private var categoryId: Long = 0
+    private lateinit var categoryName: String
 
     companion object{
         private val ADD_EXERCISE_REQUEST = 1
         private val EDIT_EXERCISE_REQUEST = 2
+
+        val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.ExerciseItemActivity.CATEGORY_ID_EXTRA"
+        val CATEGORY_NAME_EXTRA = "hoonstudio.com.fitnow.ExerciseItemActivity.CATEGORY_NAME_EXTRA"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise)
 
-        Log.d("ExerciseItemActivity", "Before initViews")
+
+        Log.d("ExerciseItemActivity", "Before initView")
         initViews()
-        Log.d("ExerciseItemActivity", "After initViews")
+        Log.d("ExerciseItemActivity", "After initView")
         setViews()
         initRecyclerView()
         initTouchHelper()
 
-        categoryId = intent.getLongExtra(ExerciseCategoryActivity.CATEGORY_ID_EXTRA, 0)
+        categoryId = intent.getLongExtra(CATEGORY_ID_EXTRA, 0)
+        categoryName = intent.getStringExtra(CATEGORY_NAME_EXTRA)
 
         exerciseItemViewModel = ViewModelProviders.of(this).get(ExerciseItemViewModel::class.java)
         exerciseItemViewModel.getAllExerciseItemById(categoryId).observe(this, Observer<List<ExerciseItem>> {
             adapter.setExerciseItemList(it)
         })
+
+        setTitle("${categoryName} Exercises")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -182,14 +190,14 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
     }
 
     /**
-     * Creates an Alert Dialog to ask for user confirmation when deleting a category
+     * Creates an Alert Dialog to ask for user confirmation when deleting a categoryName
      * @param viewHolder    Need the position of the item from the current viewholder
      */
     private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder) {
         val builder = AlertDialog.Builder(this@ExerciseItemActivity)
         builder.setCancelable(false)
         builder.setTitle("Delete Confirmation")
-        builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName} category?")
+        builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName} categoryName?")
         builder.setPositiveButton("Delete") { _, _ ->
             exerciseItemViewModel.delete(adapter.getExerciseItemAt(viewHolder.adapterPosition))
             Toast.makeText(this@ExerciseItemActivity, "Deleted", Toast.LENGTH_SHORT).show()
@@ -207,15 +215,16 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         intent = Intent(this, EditExerciseItemActivity::class.java)
         var exerciseId = exerciseItem.id
         var exerciseName = exerciseItem.exerciseName
-        intent.putExtra(EditExerciseItemActivity.EXERCISE_ID_EXTRA, exerciseId)
-        intent.putExtra(EditExerciseItemActivity.EXERCISE_NAME_EXTRA, exerciseName)
-        intent.putExtra(EditExerciseItemActivity.EXERCISE_CATEGORY_ID_EXTRA, categoryId)
+        intent.putExtra(EditExerciseItemActivity.EXTRA_EXERCISE_ID, exerciseId)
+        intent.putExtra(EditExerciseItemActivity.EXTRA_EXERCISE_NAME, exerciseName)
+        intent.putExtra(EditExerciseItemActivity.EXTRA_EXERCISE_CATEGORY_ID, categoryId)
         startActivityForResult(intent, EDIT_EXERCISE_REQUEST)
     }
 
     private fun setViews(){
         buttonAddExercise.setOnClickListener(View.OnClickListener {
             intent = Intent(this, AddExerciseItemActivity::class.java)
+            intent.putExtra(AddExerciseItemActivity.EXTRA_CATEGORY_NAME, categoryName)
             startActivityForResult(intent, ADD_EXERCISE_REQUEST)
         })
     }

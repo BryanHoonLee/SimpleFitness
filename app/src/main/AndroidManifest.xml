@@ -9,8 +9,14 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".EditExerciseItemActivity"
-                  android:parentActivityName=".ExerciseItemActivity">
+        <activity android:name=".EditExerciseCategoryActivity"
+                  android:parentActivityName=".ExerciseItemActivity"
+                  android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity
+                android:name=".EditExerciseItemActivity"
+                android:parentActivityName=".ExerciseItemActivity"
+                android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
                 android:name=".ExerciseItemActivity"
@@ -29,8 +35,8 @@
         </activity>
         <activity
                 android:name=".ExerciseCategoryActivity"
-                android:windowSoftInputMode="stateAlwaysHidden"
-                android:launchMode="singleTop">
+                android:launchMode="singleTop"
+                android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
