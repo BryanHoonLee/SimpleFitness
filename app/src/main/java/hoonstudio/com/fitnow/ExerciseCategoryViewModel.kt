@@ -4,12 +4,13 @@ import android.app.Application
 import androidx.annotation.NonNull
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 
 class ExerciseCategoryViewModel (@NonNull application: Application) : AndroidViewModel(application) {
 
     private var exerciseCategoryRepository: ExerciseCategoryRepository
-    private  lateinit var allExerciseCategory: LiveData<List<ExerciseCategory>>
+    private  lateinit var allExerciseCategory: LiveData<MutableList<ExerciseCategory>>
     var isAllExerciseCategoryInit: Boolean = false
 
     init{
@@ -29,6 +30,10 @@ class ExerciseCategoryViewModel (@NonNull application: Application) : AndroidVie
         exerciseCategoryRepository.update(exerciseCategory)
     }
 
+     fun getExerciseCount(exerciseCategoryId: Long) : LiveData<Int> {
+        return exerciseCategoryRepository.getExerciseCount(exerciseCategoryId)
+    }
+
     fun delete(exerciseCategory: ExerciseCategory){
         exerciseCategoryRepository.delete(exerciseCategory)
     }
@@ -41,7 +46,7 @@ class ExerciseCategoryViewModel (@NonNull application: Application) : AndroidVie
         return exerciseCategoryRepository.getExerciseCategoryById(exerciseCategoryId)
     }
 
-    fun getAllExerciseCategory(): LiveData<List<ExerciseCategory>>{
+    fun getAllExerciseCategory(): LiveData<MutableList<ExerciseCategory>>{
         return allExerciseCategory
     }
 

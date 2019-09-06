@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,17 +14,25 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.OnCategoryListener {
     private lateinit var exerciseCategoryViewModel: ExerciseCategoryViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ExerciseCategoryAdapter
+
+    private val job = Job()
+    protected val uiScope = CoroutineScope(Dispatchers.Main + job)
 
     companion object {
         private val ADD_EXERCISE_CATEGORY_REQUEST = 1
@@ -64,15 +73,33 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
              This avoids memory leaks and crashes.
 
              Second parameter takes in an observer which you can pass as an anonymous inner class.*/
-            exerciseCategoryViewModel.getAllExerciseCategory().observe(this, Observer<List<ExerciseCategory>> {
+            exerciseCategoryViewModel.getAllExerciseCategory().observe(this, Observer<MutableList<ExerciseCategory>> {
+
+
+                for (i in 0 until it.size) {
+                    var exerciseCount = exerciseCategoryViewModel.getExerciseCount(it[i].id)
+                    exerciseCount.observe(this@ExerciseCategoryActivity, Observer{
+                        count -> it[i].exerciseCount = count
+                        Log.d("ExerciseCategoryAct + $i", "Count: " + it[i].exerciseCount)
+                    })
+                    Log.d("ExerciseCategoutside + $i", "Count: " + it[i].exerciseCount)
+//                    val exerciseCountObserver = Observer<Int> { count ->
+//                        i.exerciseCount = count
+//                    }
+//                    exerciseCategoryViewModel.getExerciseCount(i.id)
+//                        .observe(this@ExerciseCategoryActivity, exerciseCountObserver)
+
+                }
+
+                Log.d("ExerciseCategoryAct 1", "Count: " + it[0].exerciseCount)
+                Log.d("ExerciseCategoryAct 2", "Count: " + it[1].exerciseCount)
+                Log.d("ExerciseCategoryAct 3", "Count: " + it[2].exerciseCount)
                 // update recyclerview
                 adapter.setExerciseCategoryList(it)
-
             })
         }
 
         initTouchHelper()
-
     }
 
     /**
@@ -88,83 +115,84 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
         val deleteIconIntrinsicWidth = deleteIcon!!.intrinsicWidth
         val deleteIconIntrinsicHeight = deleteIcon!!.intrinsicHeight
 
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
+        val itemTouchCallback =
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                if(direction == ItemTouchHelper.LEFT){
-                    initAlertBuilder(viewHolder)
-                }else if(direction == ItemTouchHelper.RIGHT){
-                    startEditActivity(adapter.getExerciseCategoryAt(viewHolder.adapterPosition))
-                    adapter.notifyItemChanged(viewHolder.adapterPosition)
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    if (direction == ItemTouchHelper.LEFT) {
+                        initDeleteAlertBuilder(viewHolder)
+                    } else if (direction == ItemTouchHelper.RIGHT) {
+                        startEditActivity(adapter.getExerciseCategoryAt(viewHolder.adapterPosition))
+                        adapter.notifyItemChanged(viewHolder.adapterPosition)
+                    }
+                }
+
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+
+                    if (dX < 0) {
+                        val itemView = viewHolder.itemView
+                        val itemHeight = itemView.bottom - itemView.top
+
+                        background.color = ResourcesCompat.getColor(resources, R.color.bg_row_background, null)
+                        background.setBounds(
+                            itemView.right,
+                            itemView.top,
+                            itemView.left,
+                            itemView.bottom
+                        )
+                        background.draw(c)
+
+                        val deleteIconTop = itemView.top + (itemHeight - deleteIconIntrinsicHeight) / 2
+                        val deleteIconMargin = (itemHeight - deleteIconIntrinsicHeight) / 2
+                        val deleteIconLeft = itemView.right - deleteIconMargin - deleteIconIntrinsicWidth
+                        val deleteIconRight = itemView.right - deleteIconMargin
+                        val deleteIconBottom = deleteIconTop + deleteIconIntrinsicHeight
+
+                        deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+                        deleteIcon.draw(c)
+
+                        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    } else {
+                        val itemView = viewHolder.itemView
+                        val itemHeight = itemView.bottom - itemView.top
+
+                        background.color = ResourcesCompat.getColor(resources, R.color.edit_icon_color, null)
+                        background.setBounds(
+                            itemView.left,
+                            itemView.top,
+                            itemView.right,
+                            itemView.bottom
+                        )
+                        background.draw(c)
+
+                        val editIconTop = itemView.top + (itemHeight - editIconIntrinsicHeight) / 2
+                        val editIconMargin = (itemHeight - editIconIntrinsicHeight) / 2
+                        val editIconLeft = itemView.left + editIconMargin
+                        val editIconRight = itemView.left + editIconMargin + editIconIntrinsicWidth
+                        val editIconBottom = editIconTop + deleteIconIntrinsicHeight
+
+                        editIcon.setBounds(editIconLeft, editIconTop, editIconRight, editIconBottom)
+                        editIcon.draw(c)
+
+                        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    }
                 }
             }
-
-            override fun onChildDraw(
-                c: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-
-                if(dX < 0) {
-                    val itemView = viewHolder.itemView
-                    val itemHeight = itemView.bottom - itemView.top
-
-                    background.color = ResourcesCompat.getColor(resources, R.color.bg_row_background, null)
-                    background.setBounds(
-                        itemView.right,
-                        itemView.top,
-                        itemView.left,
-                        itemView.bottom
-                    )
-                    background.draw(c)
-
-                    val deleteIconTop = itemView.top + (itemHeight - deleteIconIntrinsicHeight) / 2
-                    val deleteIconMargin = (itemHeight - deleteIconIntrinsicHeight) / 2
-                    val deleteIconLeft = itemView.right - deleteIconMargin - deleteIconIntrinsicWidth
-                    val deleteIconRight = itemView.right - deleteIconMargin
-                    val deleteIconBottom = deleteIconTop + deleteIconIntrinsicHeight
-
-                    deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
-                    deleteIcon.draw(c)
-
-                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                }else{
-                    val itemView = viewHolder.itemView
-                    val itemHeight = itemView.bottom - itemView.top
-
-                    background.color = ResourcesCompat.getColor(resources, R.color.edit_icon_color, null)
-                    background.setBounds(
-                        itemView.left,
-                        itemView.top,
-                        itemView.right ,
-                        itemView.bottom
-                    )
-                    background.draw(c)
-
-                    val editIconTop = itemView.top + (itemHeight - editIconIntrinsicHeight) / 2
-                    val editIconMargin = (itemHeight - editIconIntrinsicHeight) / 2
-                    val editIconLeft = itemView.left + editIconMargin
-                    val editIconRight = itemView.left + editIconMargin + editIconIntrinsicWidth
-                    val editIconBottom = editIconTop + deleteIconIntrinsicHeight
-
-                    editIcon.setBounds(editIconLeft, editIconTop, editIconRight, editIconBottom)
-                    editIcon.draw(c)
-
-                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                }
-            }
-        }
 
 
         val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
@@ -175,7 +203,7 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
      * Creates an Alert Dialog to ask for user confirmation when deleting a categoryName
      * @param viewHolder    Need the position of the item from the current viewholder
      */
-    private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder) {
+    private fun initDeleteAlertBuilder(viewHolder: RecyclerView.ViewHolder) {
         val builder = AlertDialog.Builder(this@ExerciseCategoryActivity)
         builder.setCancelable(false)
         builder.setTitle("Delete Confirmation")
@@ -195,7 +223,24 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
 
     }
 
-    private fun startEditActivity(exerciseCategory: ExerciseCategory){
+    private fun initDeleteAllAlertBuilder() {
+        val builder = AlertDialog.Builder(this@ExerciseCategoryActivity)
+        builder.setCancelable(false)
+        builder.setTitle("Delete All Confirmation")
+        builder.setMessage("Are you sure you want to delete all of your categories?")
+        builder.setPositiveButton("Delete All") { _, _ ->
+            exerciseCategoryViewModel.deleteAllExerciseCategory()
+            Toast.makeText(this, "All Categories Deleted", Toast.LENGTH_SHORT).show()
+        }
+        builder.setNeutralButton("Cancel") { _, _ ->
+
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    private fun startEditActivity(exerciseCategory: ExerciseCategory) {
         intent = Intent(this, EditExerciseCategoryActivity::class.java)
         var exerciseCategoryId = exerciseCategory.id
         var exerciseCategoryName = exerciseCategory.categoryName
@@ -222,11 +267,11 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
         if (requestCode == ADD_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
             var categoryName = data!!.getStringExtra(AddCategoryActivity.EXTRA_CATEGORY_NAME)
 
-            var exerciseCategoryActivity = ExerciseCategory(0, categoryName)
+            var exerciseCategoryActivity = ExerciseCategory(0, categoryName, 0)
             exerciseCategoryViewModel.insert(exerciseCategoryActivity)
 
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
-        } else if(requestCode == EDIT_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK){
+        } else if (requestCode == EDIT_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
             Toast.makeText(this, "Edit Saved", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT).show()
@@ -235,14 +280,18 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var menuInflater = menuInflater
-        menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.exercise_category_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item!!.itemId) {
         R.id.delete_all_categories -> {
-            exerciseCategoryViewModel.deleteAllExerciseCategory()
-            Toast.makeText(this, "Deleted All Categories", Toast.LENGTH_SHORT).show()
+            initDeleteAllAlertBuilder()
+            true
+        }
+        R.id.add_category -> {
+            intent = Intent(this, AddCategoryActivity::class.java)
+            startActivityForResult(intent, ADD_EXERCISE_CATEGORY_REQUEST)
             true
         }
         else -> {

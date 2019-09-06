@@ -20,13 +20,16 @@ interface ExerciseCategoryDao {
     @Query("DELETE FROM exercise_category_table")
     suspend fun deleteAllCategories()
 
+    @Query("SELECT COUNT(exercise_item_category_id) FROM exercise_item_table WHERE exercise_item_category_id = :exerciseCategoryId")
+    fun getExerciseCount(exerciseCategoryId: Long) : LiveData<Int>
+
     @Query("SELECT * FROM exercise_category_table WHERE id = :exerciseCategoryId")
     fun getExerciseCategoryById(exerciseCategoryId: Long) : ExerciseCategory
 
     // cant use suspend with livedata because livedata is already working in background thread
     //https://stackoverflow.com/questions/54566663/room-dao-livedata-as-return-type-causing-compile-time-error
-    @Query("SELECT * FROM exercise_category_table ORDER BY categoryName DESC")
-    fun getAllCategories(): LiveData<List<ExerciseCategory>>
+    @Query("SELECT * FROM exercise_category_table")
+    fun getAllCategories(): LiveData<MutableList<ExerciseCategory>>
 
 
 }

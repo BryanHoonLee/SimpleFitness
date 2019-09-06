@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -45,6 +47,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 
         val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.ExerciseItemActivity.CATEGORY_ID_EXTRA"
         val CATEGORY_NAME_EXTRA = "hoonstudio.com.fitnow.ExerciseItemActivity.CATEGORY_NAME_EXTRA"
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -236,5 +239,22 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 
         adapter= ExerciseItemAdapter(this)
         recyclerView.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        var menuInflater = menuInflater
+        menuInflater.inflate(R.menu.exercise_item_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item!!.itemId) {
+        R.id.add_category -> {
+            intent = Intent(this, AddExerciseItemActivity::class.java)
+            startActivityForResult(intent, ADD_EXERCISE_REQUEST)
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -2,6 +2,7 @@ package hoonstudio.com.fitnow
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,7 +11,7 @@ import kotlinx.coroutines.withContext
 class ExerciseCategoryRepository{
 
     private  var exerciseCategoryDao: ExerciseCategoryDao
-    private lateinit var allExerciseCategory: LiveData<List<ExerciseCategory>>
+    private lateinit var allExerciseCategory: LiveData<MutableList<ExerciseCategory>>
     private val scope = CoroutineScope(Dispatchers.Default)
     var isAllExerciseCategoryInit: Boolean = false
 
@@ -36,6 +37,10 @@ class ExerciseCategoryRepository{
         DeleteExerciseCategory(exerciseCategoryDao).delete(exerciseCategory)
     }
 
+     fun getExerciseCount(exerciseCategoryId: Long): LiveData<Int> {
+        return GetExerciseCount(exerciseCategoryDao).getExerciseCount(exerciseCategoryId)
+    }
+
     fun deleteAllExerciseCategory(){
         DeleteAllExerciseCategory(exerciseCategoryDao).deleteAll()
     }
@@ -44,7 +49,7 @@ class ExerciseCategoryRepository{
         return GetExerciseCategoryById(exerciseCategoryDao).getExerciseCategoryById(exerciseCategoryId)
     }
 
-    fun getAllExerciseCategory(): LiveData<List<ExerciseCategory>>{
+    fun getAllExerciseCategory(): LiveData<MutableList<ExerciseCategory>>{
         return allExerciseCategory
     }
 
@@ -60,6 +65,13 @@ class ExerciseCategoryRepository{
         private class UpdateExerciseCategory internal constructor(private val exerciseCategoryDao: ExerciseCategoryDao?){
             fun update(exerciseCategory: ExerciseCategory) = scope.launch {
                 exerciseCategoryDao?.update(exerciseCategory)
+            }
+        }
+
+        private class GetExerciseCount internal constructor(private val exerciseCategoryDao: ExerciseCategoryDao?){
+             fun getExerciseCount(exerciseCategoryId: Long) : LiveData<Int>{
+                return exerciseCategoryDao!!.getExerciseCount(exerciseCategoryId)
+
             }
         }
 

@@ -1,10 +1,14 @@
 package hoonstudio.com.fitnow
 
+import android.app.Activity
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 
 class ExerciseCategoryAdapter(onCategoryListener: OnCategoryListener): RecyclerView.Adapter<ExerciseCategoryAdapter.ExerciseCategoryHolder>(){
@@ -38,7 +42,9 @@ class ExerciseCategoryAdapter(onCategoryListener: OnCategoryListener): RecyclerV
 
     override fun onBindViewHolder(holder: ExerciseCategoryHolder, position: Int) {
         var current = exerciseCategoryList.get(position)
-        holder.textViewCategory.text = current.categoryName
+        var categoryName = SpannableString(current.categoryName + "\n" + current.exerciseCount + " Exercises")
+        categoryName.setSpan(RelativeSizeSpan(0.5f), current.categoryName.length, categoryName.length, 0)
+        holder.textViewCategory.setText(categoryName)
     }
 
     class ExerciseCategoryHolder(itemView: View, onCategoryListener: OnCategoryListener): RecyclerView.ViewHolder(itemView), View.OnClickListener{
