@@ -253,12 +253,12 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == ADD_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
-            var categoryName = data!!.getStringExtra(AddCategoryActivity.EXTRA_CATEGORY_NAME)
-
-            var exerciseCategoryActivity = ExerciseCategory(0, categoryName, 0, false,
-                false, false, false, false, false,
-                false)
-            exerciseCategoryViewModel.insert(exerciseCategoryActivity)
+//            var categoryName = data!!.getStringExtra(AddCategoryActivity.EXTRA_CATEGORY_NAME)
+//
+//            var exerciseCategoryActivity = ExerciseCategory(0, categoryName, 0, false,
+//                false, false, false, false, false,
+//                false)
+//            exerciseCategoryViewModel.insert(exerciseCategoryActivity)
 
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
         } else if (requestCode == EDIT_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -275,10 +275,6 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item!!.itemId) {
-        R.id.delete_all_categories -> {
-            initDeleteAllAlertBuilder()
-            true
-        }
         R.id.add_category -> {
             intent = Intent(this, AddCategoryActivity::class.java)
             startActivityForResult(intent, ADD_EXERCISE_CATEGORY_REQUEST)

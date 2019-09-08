@@ -77,10 +77,10 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == ADD_EXERCISE_REQUEST && resultCode == Activity.RESULT_OK){
-            var exerciseName = data!!.getStringExtra(AddExerciseItemActivity.EXTRA_EXERCISE_NAME)
-
-            var exerciseItem= ExerciseItem(0, categoryId, exerciseName, 0.0,0, 0)
-            exerciseItemViewModel.insert(exerciseItem)
+//            var exerciseName = data!!.getStringExtra(AddExerciseItemActivity.EXTRA_EXERCISE_NAME)
+//
+//            var exerciseItem= ExerciseItem(0, categoryId, exerciseName, 0.0,0, 0)
+//            exerciseItemViewModel.insert(exerciseItem)
 
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
         }else if(requestCode == EDIT_EXERCISE_REQUEST && resultCode == Activity.RESULT_OK){
@@ -228,6 +228,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         buttonAddExercise.setOnClickListener(View.OnClickListener {
             intent = Intent(this, AddExerciseItemActivity::class.java)
             intent.putExtra(AddExerciseItemActivity.EXTRA_CATEGORY_NAME, categoryName)
+            intent.putExtra(AddExerciseItemActivity.EXTRA_CATEGORY_ID, categoryId)
             startActivityForResult(intent, ADD_EXERCISE_REQUEST)
         })
     }

@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,21 @@ class EditExerciseCategoryActivity : AppCompatActivity() {
     private lateinit var exerciseCategoryViewModel: ExerciseCategoryViewModel
 
     private lateinit var editTextCategoryName: EditText
+    private lateinit var buttonDayMonday: ToggleButton
+    private lateinit var buttonDayTuesday: ToggleButton
+    private lateinit var buttonDayWednesday: ToggleButton
+    private lateinit var buttonDayThursday: ToggleButton
+    private lateinit var buttonDayFriday: ToggleButton
+    private lateinit var buttonDaySaturday: ToggleButton
+    private lateinit var buttonDaySunday: ToggleButton
+
+    private var booleanDayMonday: Boolean = false
+    private var booleanDayTuesday: Boolean = false
+    private var booleanDayWednesday: Boolean = false
+    private var booleanDayThursday: Boolean = false
+    private var booleanDayFriday: Boolean = false
+    private var booleanDaySaturday: Boolean = false
+    private var booleanDaySunday: Boolean = false
 
     private lateinit var currentExerciseCategory: ExerciseCategory
 
@@ -35,6 +51,7 @@ class EditExerciseCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_exercise_category)
 
+
         exerciseCategoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         exerciseCategoryName = intent.getStringExtra(EXTRA_EXERCISE_NAME)
 
@@ -51,9 +68,39 @@ class EditExerciseCategoryActivity : AppCompatActivity() {
 
     fun initView(){
         editTextCategoryName = findViewById(R.id.edit_text_category_name)
-
         editTextCategoryName.setText(currentExerciseCategory.categoryName)
+
+        buttonDayMonday = findViewById(R.id.button_day_monday)
+        buttonDayTuesday = findViewById(R.id.button_day_tuesday)
+        buttonDayWednesday = findViewById(R.id.button_day_wednesday)
+        buttonDayThursday = findViewById(R.id.button_day_thursday)
+        buttonDayFriday = findViewById(R.id.button_day_friday)
+        buttonDaySaturday = findViewById(R.id.button_day_saturday)
+        buttonDaySunday = findViewById(R.id.button_day_sunday)
+
+        if(currentExerciseCategory.dayMonday){
+            buttonDayMonday.toggle()
+        }
+        if(currentExerciseCategory.dayTuesday){
+            buttonDayTuesday.toggle()
+        }
+        if(currentExerciseCategory.dayWednesday){
+            buttonDayWednesday.toggle()
+        }
+        if(currentExerciseCategory.dayThursday){
+            buttonDayThursday.toggle()
+        }
+        if(currentExerciseCategory.dayFriday){
+            buttonDayFriday.toggle()
+        }
+        if(currentExerciseCategory.daySaturday){
+            buttonDaySaturday.toggle()
+        }
+        if(currentExerciseCategory.daySunday){
+            buttonDaySunday.toggle()
+        }
     }
+
 
     fun saveExercise(){
         currentExerciseCategory.categoryName = editTextCategoryName.text.toString()
@@ -63,12 +110,23 @@ class EditExerciseCategoryActivity : AppCompatActivity() {
             return
         }
 
+        setBooleanDays()
+
         exerciseCategoryViewModel.update(currentExerciseCategory)
 
         setResult(Activity.RESULT_OK)
         finish()
     }
 
+    private fun setBooleanDays() {
+        currentExerciseCategory.dayMonday = buttonDayMonday.isChecked
+        currentExerciseCategory.dayTuesday = buttonDayTuesday.isChecked
+        currentExerciseCategory.dayWednesday = buttonDayWednesday.isChecked
+        currentExerciseCategory.dayThursday = buttonDayThursday.isChecked
+        currentExerciseCategory.dayFriday = buttonDayFriday.isChecked
+        currentExerciseCategory.daySaturday = buttonDaySaturday.isChecked
+        currentExerciseCategory.daySunday = buttonDaySunday.isChecked
+    }
 
     override fun onDestroy() {
         super.onDestroy()

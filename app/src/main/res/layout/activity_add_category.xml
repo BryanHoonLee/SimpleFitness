@@ -35,14 +35,14 @@
                 android:text="Mo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/circle_border_background"
+                android:background="@drawable/toggle_button_background"
                 android:theme="@style/CardView.Light"
                 android:id="@+id/button_day_monday"
                 android:layout_weight="1"
                 style="@style/Widget.AppCompat.Button.Small" android:textOff="Mo" android:textOn="Mo"/>
         <ToggleButton
                 android:text="Tu"
-                android:background="@drawable/circle_border_background"
+                android:background="@drawable/toggle_button_background"
                 android:theme="@style/CardView.Dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
 
         <ToggleButton
                 android:text="We"
-                android:background="@drawable/circle_border_background"
+                android:background="@drawable/toggle_button_background"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_day_wednesday"
@@ -62,7 +62,7 @@
                 style="@style/Widget.AppCompat.Button.Small" android:textOn="We" android:textOff="We"/>
         <ToggleButton
                 android:text="Th"
-                android:background="@drawable/circle_border_background"
+                android:background="@drawable/toggle_button_background"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_day_thursday"
@@ -73,7 +73,7 @@
 
         <ToggleButton
                 android:text="Fr"
-                android:background="@drawable/circle_border_background"
+                android:background="@drawable/toggle_button_background"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_day_friday"
@@ -83,7 +83,7 @@
                 app:layout_constraintVertical_bias="0.0" android:textOn="Fr" android:textOff="Fr"/>
         <ToggleButton
                 android:text="Sa"
-                android:background="@drawable/circle_border_background"
+                android:background="@drawable/toggle_button_background"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_day_saturday"
@@ -94,7 +94,7 @@
 
         <ToggleButton
                 android:text="Su"
-                android:background="@drawable/circle_border_background"
+                android:background="@drawable/toggle_button_background"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_day_sunday"

@@ -94,14 +94,6 @@ class ExerciseCategoryAdapter(onCategoryListener: OnCategoryListener): RecyclerV
         var textViewCategory: TextView
         var textViewDays: TextView
         var textViewNumberExercises: TextView
-//        var buttonDayMonday: ToggleButton
-//        var buttonDayTuesday: ToggleButton
-//        var buttonDayWednesday: ToggleButton
-//        var buttonDayThursday: ToggleButton
-//        var buttonDayFriday: ToggleButton
-//        var buttonDaySaturday: ToggleButton
-//        var buttonDaySunday: ToggleButton
-        //for setting text for days, put all enabled days (toggle for each) into array/list and for loop. size - 2 for inserting &amp;
 
         var onCategoryListener: OnCategoryListener
 
@@ -110,13 +102,6 @@ class ExerciseCategoryAdapter(onCategoryListener: OnCategoryListener): RecyclerV
             textViewCategory = itemView.findViewById(R.id.text_view_category)
             textViewDays = itemView.findViewById(R.id.text_view_days)
             textViewNumberExercises = itemView.findViewById(R.id.text_view_number_exercises)
-//            buttonDayMonday = itemView.findViewById(R.id.button_day_monday)
-//            buttonDayTuesday = itemView.findViewById(R.id.button_day_tuesday)
-//            buttonDayWednesday = itemView.findViewById(R.id.button_day_wednesday)
-//            buttonDayThursday = itemView.findViewById(R.id.button_day_thursday)
-//            buttonDayFriday = itemView.findViewById(R.id.button_day_friday)
-//            buttonDaySaturday = itemView.findViewById(R.id.button_day_saturday)
-//            buttonDaySunday = itemView.findViewById(R.id.button_day_sunday)
 
             itemView.setOnClickListener(this)
             this.onCategoryListener = onCategoryListener
