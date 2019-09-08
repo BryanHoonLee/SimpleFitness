@@ -31,9 +31,6 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ExerciseCategoryAdapter
 
-    private val job = Job()
-    protected val uiScope = CoroutineScope(Dispatchers.Main + job)
-
     companion object {
         private val ADD_EXERCISE_CATEGORY_REQUEST = 1
         private val EDIT_EXERCISE_CATEGORY_REQUEST = 2
@@ -78,22 +75,13 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
 
                 for (i in 0 until it.size) {
                     var exerciseCount = exerciseCategoryViewModel.getExerciseCount(it[i].id)
-                    exerciseCount.observe(this@ExerciseCategoryActivity, Observer{
-                        count -> it[i].exerciseCount = count
-                        Log.d("ExerciseCategoryAct + $i", "Count: " + it[i].exerciseCount)
+                    exerciseCount.observe(this@ExerciseCategoryActivity, Observer { count ->
+                        if (count != it[i].exerciseCount) {
+                            it[i].exerciseCount = count
+                            exerciseCategoryViewModel.update(it[i])
+                        }
                     })
-                    Log.d("ExerciseCategoutside + $i", "Count: " + it[i].exerciseCount)
-//                    val exerciseCountObserver = Observer<Int> { count ->
-//                        i.exerciseCount = count
-//                    }
-//                    exerciseCategoryViewModel.getExerciseCount(i.id)
-//                        .observe(this@ExerciseCategoryActivity, exerciseCountObserver)
-
                 }
-
-                Log.d("ExerciseCategoryAct 1", "Count: " + it[0].exerciseCount)
-                Log.d("ExerciseCategoryAct 2", "Count: " + it[1].exerciseCount)
-                Log.d("ExerciseCategoryAct 3", "Count: " + it[2].exerciseCount)
                 // update recyclerview
                 adapter.setExerciseCategoryList(it)
             })
@@ -267,7 +255,9 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
         if (requestCode == ADD_EXERCISE_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
             var categoryName = data!!.getStringExtra(AddCategoryActivity.EXTRA_CATEGORY_NAME)
 
-            var exerciseCategoryActivity = ExerciseCategory(0, categoryName, 0)
+            var exerciseCategoryActivity = ExerciseCategory(0, categoryName, 0, false,
+                false, false, false, false, false,
+                false)
             exerciseCategoryViewModel.insert(exerciseCategoryActivity)
 
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()

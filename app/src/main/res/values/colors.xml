@@ -3,9 +3,11 @@
     <color name="colorPrimary">#A1E2DA</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="black">#000000</color>
     <color name="red">#EC1919</color>
     <color name="bg_row_background">#F5859F</color>
     <color name="white">#fff</color>
+    <color name="grayedOut">#C0A9A9</color>
     <color name="edit_icon_color">#8BBD4B</color>
     <color name="gradient_start">#F82424</color>
     <color name="gradient_end">#EE5151</color>

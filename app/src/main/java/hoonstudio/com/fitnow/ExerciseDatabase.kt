@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = arrayOf(ExerciseCategory::class, ExerciseItem::class), version = 9)
+@Database(entities = arrayOf(ExerciseCategory::class, ExerciseItem::class), version = 10)
 abstract class ExerciseDatabase: RoomDatabase(){
 
     companion object {
@@ -57,8 +57,12 @@ abstract class ExerciseDatabase: RoomDatabase(){
 //                exerciseList2.add(ExerciseItem("Dumbbell Bench Press", 4, 5))
 //                exerciseList2.add(ExerciseItem("Butterfly Press", 4, 5))
 //
-                exerciseCategoryDao.insert(ExerciseCategory(0,"Arms", 0))
-                exerciseCategoryDao.insert(ExerciseCategory( 0,"Chest", 0))
+                exerciseCategoryDao.insert(ExerciseCategory(0,"Arms", 0,
+                    false,false,false,false,false,
+                    false,false))
+                exerciseCategoryDao.insert(ExerciseCategory( 0,"Chest", 0,
+                    false,false,false,false,false,
+                    false,false))
             }
         }
     }
