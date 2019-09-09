@@ -12,27 +12,7 @@
         android:focusableInTouchMode="true"
         tools:context=".EditExerciseItemActivity">
 
-    <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_increment"
-            android:id="@+id/button_weight_increment"
-            style="@android:style/Widget.Holo.ImageButton"
-            app:layout_constraintStart_toEndOf="@+id/button_weight_decrement" android:layout_marginStart="4dp"
-            app:layout_constraintTop_toTopOf="@+id/button_weight_decrement"
-            app:layout_constraintBottom_toBottomOf="@+id/button_weight_decrement"/>
-    <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_decrement"
-            android:id="@+id/button_weight_decrement"
-            style="@android:style/Widget.Holo.ImageButton"
-            app:layout_constraintStart_toEndOf="@+id/edit_text_weight"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/edit_text_weight"
-            app:layout_constraintBottom_toBottomOf="@+id/edit_text_weight"/>
+
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="0dp"

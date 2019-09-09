@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
@@ -25,8 +26,6 @@ class EditExerciseItemActivity : AppCompatActivity() {
     private lateinit var buttonSetsIncrement: ImageButton
     private lateinit var buttonRepsDecrement: ImageButton
     private lateinit var buttonRepsIncrement: ImageButton
-    private lateinit var buttonWeightDecrement: ImageButton
-    private lateinit var buttonWeightIncrement: ImageButton
 
     private var exerciseId: Long = 0
     private var exerciseCategoryId: Long = 0
@@ -55,13 +54,14 @@ class EditExerciseItemActivity : AppCompatActivity() {
         uiScope.launch {
             currentExercise = exerciseItemViewModel.getExerciseItemById(exerciseId)
             initView()
+            setView()
         }
 
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
         setTitle("Edit ${exerciseName}")
     }
 
-    fun initView() {
+    private fun initView() {
         editTextExerciseName = findViewById(R.id.edit_text_exercise_name)
         editTextSets = findViewById(R.id.edit_text_sets)
         editTextReps = findViewById(R.id.edit_text_reps)
@@ -70,8 +70,7 @@ class EditExerciseItemActivity : AppCompatActivity() {
         buttonSetsIncrement = findViewById(R.id.button_sets_increment)
         buttonRepsDecrement = findViewById(R.id.button_reps_decrement)
         buttonRepsIncrement = findViewById(R.id.button_reps_increment)
-        buttonWeightDecrement = findViewById(R.id.button_weight_decrement)
-        buttonWeightIncrement = findViewById(R.id.button_weight_increment)
+
 
         editTextExerciseName.setText(currentExercise.exerciseName)
         editTextSets.setText(currentExercise.sets.toString())
@@ -79,23 +78,60 @@ class EditExerciseItemActivity : AppCompatActivity() {
         editTextWeight.setText(currentExercise.weight.toString())
     }
 
+    private fun setView() {
+        var current: Int = 0
+        buttonSetsIncrement.setOnClickListener(View.OnClickListener {
+            current = editTextSets.text.toString().toInt() + 1
+            if(current < 0){
+                editTextSets.setText(0.toString())
+            }else{
+                editTextSets.setText(current.toString())
 
-    private fun saveExercise(){
+            }
+        })
+        buttonSetsDecrement.setOnClickListener(View.OnClickListener {
+            current = editTextSets.text.toString().toInt() - 1
+            if(current < 0){
+                editTextSets.setText(0.toString())
+            }else{
+                editTextSets.setText(current.toString())
+            }
+        })
+        buttonRepsIncrement.setOnClickListener(View.OnClickListener {
+            current = editTextReps.text.toString().toInt() + 1
+            if(current < 0){
+                editTextReps.setText(0.toString())
+            }else{
+                editTextReps.setText(current.toString())
+            }
+        })
+        buttonRepsDecrement.setOnClickListener(View.OnClickListener {
+            current = editTextReps.text.toString().toInt() - 1
+            if(current < 0){
+                editTextReps.setText(0.toString())
+            }else{
+                editTextReps.setText(current.toString())
+            }
+        })
+    }
+
+
+    private fun saveExercise() {
         currentExercise.exerciseName = editTextExerciseName.text.toString()
         currentExercise.sets = editTextSets.text.toString().toInt()
         currentExercise.reps = editTextReps.text.toString().toInt()
         currentExercise.weight = editTextWeight.text.toString().toDouble()
 
-        if(editTextExerciseName.text.toString().trim().isEmpty()){
+        if (editTextExerciseName.text.toString().trim().isEmpty()) {
             Toast.makeText(this, "Please Insert An Exercise Name", Toast.LENGTH_SHORT).show()
             return
-        }else if(editTextSets.text.toString().trim().isEmpty()){
+        } else if (editTextSets.text.toString().trim().isEmpty()) {
             Toast.makeText(this, "Please Insert a value for Sets", Toast.LENGTH_SHORT).show()
             return
-        }else if(editTextReps.text.toString().trim().isEmpty()){
+        } else if (editTextReps.text.toString().trim().isEmpty()) {
             Toast.makeText(this, "Please Insert a value for Reps", Toast.LENGTH_SHORT).show()
             return
-        }else if(editTextWeight.text.toString().trim().isEmpty()){
+        } else if (editTextWeight.text.toString().trim().isEmpty()) {
             Toast.makeText(this, "Please Insert a value for Weight", Toast.LENGTH_SHORT).show()
             return
         }
