@@ -17,6 +17,7 @@ class AddExerciseItemActivity : AppCompatActivity() {
     private lateinit var editTextSets: EditText
     private lateinit var editTextReps: EditText
     private lateinit var editTextWeight: EditText
+    private lateinit var editTextTimer: EditText
 
     private lateinit var categoryName: String
     private var categoryId: Long = 0
@@ -42,29 +43,49 @@ class AddExerciseItemActivity : AppCompatActivity() {
         setTitle("Add $categoryName Exercise")
     }
 
-    private fun initView(){
+    private fun initView() {
         editTextExerciseName = findViewById(R.id.edit_text_exercise_name)
         editTextSets = findViewById(R.id.edit_text_sets)
         editTextReps = findViewById(R.id.edit_text_reps)
         editTextWeight = findViewById(R.id.edit_text_weight)
+        editTextTimer = findViewById(R.id.edit_text_timer)
 
-        editTextSets.setText(0.toString())
-        editTextReps.setText(0.toString())
-        editTextWeight.setText(0.toString())
+
     }
 
     private fun saveExercise() {
         var exerciseName = editTextExerciseName.text.toString()
-        var sets = editTextSets.text.toString().toInt()
-        var reps = editTextReps.text.toString().toInt()
-        var weight = editTextWeight.text.toString().toDouble()
+        var sets = 0
+        var reps = 0
+        var weight = 0.0
+        var timer = 0
 
         if (exerciseName.trim().isEmpty()) {
             Toast.makeText(this, "Please Insert An Exercise Name", Toast.LENGTH_SHORT)
             return
         }
+        if (editTextSets.text.toString().trim().isEmpty()) {
+            sets = 0
+        } else {
+            sets = editTextSets.text.toString().toInt()
+        }
+        if (editTextReps.text.toString().trim().isEmpty()) {
+            reps = 0
+        } else {
+            reps = editTextReps.text.toString().toInt()
+        }
+        if (editTextWeight.text.toString().trim().isEmpty()) {
+            weight = 0.0
+        } else {
+            weight = editTextWeight.text.toString().toDouble()
+        }
+        if (timer.toString().trim().isEmpty()) {
+            timer = 45
+        } else {
+            timer = editTextTimer.text.toString().toInt()
+        }
 
-        var exerciseItem= ExerciseItem(0, categoryId, exerciseName, weight,sets, reps)
+        var exerciseItem = ExerciseItem(0, categoryId, exerciseName, weight, sets, reps, timer)
         exerciseItemViewModel.insert(exerciseItem)
 
         setResult(Activity.RESULT_OK)

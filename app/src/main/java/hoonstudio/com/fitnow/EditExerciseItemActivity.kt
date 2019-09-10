@@ -22,6 +22,7 @@ class EditExerciseItemActivity : AppCompatActivity() {
     private lateinit var editTextSets: EditText
     private lateinit var editTextReps: EditText
     private lateinit var editTextWeight: EditText
+    private lateinit var editTextTimer: EditText
     private lateinit var buttonSetsDecrement: ImageButton
     private lateinit var buttonSetsIncrement: ImageButton
     private lateinit var buttonRepsDecrement: ImageButton
@@ -66,6 +67,7 @@ class EditExerciseItemActivity : AppCompatActivity() {
         editTextSets = findViewById(R.id.edit_text_sets)
         editTextReps = findViewById(R.id.edit_text_reps)
         editTextWeight = findViewById(R.id.edit_text_weight)
+        editTextTimer = findViewById(R.id.edit_text_timer)
         buttonSetsDecrement = findViewById(R.id.button_sets_decrement)
         buttonSetsIncrement = findViewById(R.id.button_sets_increment)
         buttonRepsDecrement = findViewById(R.id.button_reps_decrement)
@@ -76,6 +78,7 @@ class EditExerciseItemActivity : AppCompatActivity() {
         editTextSets.setText(currentExercise.sets.toString())
         editTextReps.setText(currentExercise.reps.toString())
         editTextWeight.setText(currentExercise.weight.toString())
+        editTextTimer.setText(currentExercise.timer.toString())
     }
 
     private fun setView() {
@@ -121,6 +124,7 @@ class EditExerciseItemActivity : AppCompatActivity() {
         currentExercise.sets = editTextSets.text.toString().toInt()
         currentExercise.reps = editTextReps.text.toString().toInt()
         currentExercise.weight = editTextWeight.text.toString().toDouble()
+        currentExercise.timer = editTextTimer.text.toString().toInt()
 
         if (editTextExerciseName.text.toString().trim().isEmpty()) {
             Toast.makeText(this, "Please Insert An Exercise Name", Toast.LENGTH_SHORT).show()
@@ -133,6 +137,9 @@ class EditExerciseItemActivity : AppCompatActivity() {
             return
         } else if (editTextWeight.text.toString().trim().isEmpty()) {
             Toast.makeText(this, "Please Insert a value for Weight", Toast.LENGTH_SHORT).show()
+            return
+        } else if (editTextTimer.text.toString().trim().isEmpty()){
+            Toast.makeText(this, "Please Insert a value for Timer", Toast.LENGTH_SHORT).show()
             return
         }
 

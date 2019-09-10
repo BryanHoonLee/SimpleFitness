@@ -19,4 +19,5 @@ data class ExerciseItem(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id"
                         @ColumnInfo(name = "exercise_name") var exerciseName: String,
                         @ColumnInfo(name = "weight") var weight: Double,
                         @ColumnInfo(name = "sets") var sets: Int,
-                        @ColumnInfo(name = "reps") var reps: Int)
+                        @ColumnInfo(name = "reps") var reps: Int,
+                        @ColumnInfo(name = "timer") var timer: Int)

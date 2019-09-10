@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = arrayOf(ExerciseCategory::class, ExerciseItem::class), version = 10)
+@Database(entities = arrayOf(ExerciseCategory::class, ExerciseItem::class), version = 11)
 abstract class ExerciseDatabase: RoomDatabase(){
 
     companion object {

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.item_exercise.view.*
 
 class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExerciseItemListener {
     private lateinit var exerciseItemViewModel: ExerciseItemViewModel
@@ -110,8 +111,14 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if(direction == ItemTouchHelper.LEFT){
+                    if(viewHolder.itemView.toggle_button_timer.isChecked){
+                        viewHolder.itemView.toggle_button_timer.toggle()
+                    }
                     initAlertBuilder(viewHolder)
                 }else if(direction == ItemTouchHelper.RIGHT){
+                    if(viewHolder.itemView.toggle_button_timer.isChecked){
+                        viewHolder.itemView.toggle_button_timer.toggle()
+                    }
                     startEditActivity(adapter.getExerciseItemAt(viewHolder.adapterPosition))
                     adapter.notifyItemChanged(viewHolder.adapterPosition)
                 }
