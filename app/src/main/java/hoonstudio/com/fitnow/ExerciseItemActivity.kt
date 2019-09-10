@@ -26,15 +26,6 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ExerciseItemAdapter
 
-//    private lateinit var buttonSetsIncrement: Button
-//    private lateinit var buttonSetsDecrement: Button
-//    private lateinit var buttonRepsIncrement: Button
-//    private lateinit var buttonRepsDecrement: Button
-//    private lateinit var buttonWeightIncrement: Button
-//    private lateinit var buttonWeightDecrement: Button
-//    private lateinit var textViewSets: EditText
-//    private lateinit var textViewReps: EditText
-//    private lateinit var textViewWeight: EditText
     private lateinit var buttonAddExercise: FloatingActionButton
     private lateinit var currentExerciseItem: ExerciseItem
 

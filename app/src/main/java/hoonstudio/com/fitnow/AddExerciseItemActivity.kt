@@ -36,13 +36,21 @@ class AddExerciseItemActivity : AppCompatActivity() {
         categoryName = intent.getStringExtra(EXTRA_CATEGORY_NAME)
         categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
 
+        initView()
+
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
+        setTitle("Add $categoryName Exercise")
+    }
+
+    private fun initView(){
         editTextExerciseName = findViewById(R.id.edit_text_exercise_name)
         editTextSets = findViewById(R.id.edit_text_sets)
         editTextReps = findViewById(R.id.edit_text_reps)
         editTextWeight = findViewById(R.id.edit_text_weight)
 
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
-        setTitle("Add $categoryName Exercise")
+        editTextSets.setText(0.toString())
+        editTextReps.setText(0.toString())
+        editTextWeight.setText(0.toString())
     }
 
     private fun saveExercise() {
@@ -61,8 +69,6 @@ class AddExerciseItemActivity : AppCompatActivity() {
 
         setResult(Activity.RESULT_OK)
         finish()
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

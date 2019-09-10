@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_exercise_category.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -280,6 +282,14 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
             startActivityForResult(intent, ADD_EXERCISE_CATEGORY_REQUEST)
             true
         }
+        /**
+         * TODO: Creating table for settings. Allow users to toggle the fab (hide()/show())
+         */
+//        R.id.toggle_fab -> {
+//            if(){
+//
+//            }
+//        }
         else -> {
             super.onOptionsItemSelected(item)
         }

@@ -7,9 +7,10 @@
     <color name="red">#EC1919</color>
     <color name="bg_row_background">#F5859F</color>
     <color name="white">#fff</color>
-    <color name="grayedOut">#C0A9A9</color>
+    <color name="grayedOut">#A5A5A5</color>
     <color name="edit_icon_color">#8BBD4B</color>
     <color name="gradient_start">#F82424</color>
-    <color name="gradient_end">#EE5151</color>
+    <color name="red_stop">#EE5151</color>
+    <color name="red_stop_accent">#FCD3D3</color>
 
 </resources>
