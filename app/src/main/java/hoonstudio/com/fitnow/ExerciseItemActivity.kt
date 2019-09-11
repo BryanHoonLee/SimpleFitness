@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.item_exercise.view.*
+import android.os.Parcelable
+
+
 
 class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExerciseItemListener {
     private lateinit var exerciseItemViewModel: ExerciseItemViewModel
@@ -39,7 +42,6 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 
         val CATEGORY_ID_EXTRA = "hoonstudio.com.fitnow.ExerciseItemActivity.CATEGORY_ID_EXTRA"
         val CATEGORY_NAME_EXTRA = "hoonstudio.com.fitnow.ExerciseItemActivity.CATEGORY_NAME_EXTRA"
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,11 +71,6 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == ADD_EXERCISE_REQUEST && resultCode == Activity.RESULT_OK){
-//            var exerciseName = data!!.getStringExtra(AddExerciseItemActivity.EXTRA_EXERCISE_NAME)
-//
-//            var exerciseItem= ExerciseItem(0, categoryId, exerciseName, 0.0,0, 0)
-//            exerciseItemViewModel.insert(exerciseItem)
-
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
         }else if(requestCode == EDIT_EXERCISE_REQUEST && resultCode == Activity.RESULT_OK){
             Toast.makeText(this, "Edit Saved", Toast.LENGTH_SHORT).show()
@@ -88,7 +85,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
     }
 
     private fun initViews(){
-        buttonAddExercise = findViewById<FloatingActionButton>(R.id.button_add_exercise)
+        buttonAddExercise = findViewById(R.id.button_add_exercise)
     }
 
     private fun initTouchHelper() {
@@ -198,7 +195,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         val builder = AlertDialog.Builder(this@ExerciseItemActivity)
         builder.setCancelable(false)
         builder.setTitle("Delete Confirmation")
-        builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName} categoryName?")
+        builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName} category?")
         builder.setPositiveButton("Delete") { _, _ ->
             exerciseItemViewModel.delete(adapter.getExerciseItemAt(viewHolder.adapterPosition))
             Toast.makeText(this@ExerciseItemActivity, "Deleted", Toast.LENGTH_SHORT).show()

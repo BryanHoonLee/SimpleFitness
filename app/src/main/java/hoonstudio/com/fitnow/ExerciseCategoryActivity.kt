@@ -197,7 +197,7 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
         val builder = AlertDialog.Builder(this@ExerciseCategoryActivity)
         builder.setCancelable(false)
         builder.setTitle("Delete Confirmation")
-        builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseCategoryAt(viewHolder.adapterPosition).categoryName} categoryName?")
+        builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseCategoryAt(viewHolder.adapterPosition).categoryName} category?")
         builder.setPositiveButton("Delete") { _, _ ->
             exerciseCategoryViewModel.delete(adapter.getExerciseCategoryAt(viewHolder.adapterPosition))
             Toast.makeText(this@ExerciseCategoryActivity, "Deleted", Toast.LENGTH_SHORT).show()

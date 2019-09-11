@@ -101,7 +101,7 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
             }
         }
 
-        holder.progressBar.setProgress(holder.timer)
+       // holder.progressBar.setProgress(holder.timer)
 
     }
 
