@@ -108,9 +108,6 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if(direction == ItemTouchHelper.LEFT){
-                    if(viewHolder.itemView.toggle_button_timer.isChecked){
-                        viewHolder.itemView.toggle_button_timer.toggle()
-                    }
                     initAlertBuilder(viewHolder)
                 }else if(direction == ItemTouchHelper.RIGHT){
                     if(viewHolder.itemView.toggle_button_timer.isChecked){
@@ -197,6 +194,9 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
         builder.setTitle("Delete Confirmation")
         builder.setMessage("Are you sure you want to delete your ${adapter.getExerciseItemAt(viewHolder.adapterPosition).exerciseName} category?")
         builder.setPositiveButton("Delete") { _, _ ->
+            if(viewHolder.itemView.toggle_button_timer.isChecked){
+                viewHolder.itemView.toggle_button_timer.toggle()
+            }
             exerciseItemViewModel.delete(adapter.getExerciseItemAt(viewHolder.adapterPosition))
             Toast.makeText(this@ExerciseItemActivity, "Deleted", Toast.LENGTH_SHORT).show()
         }

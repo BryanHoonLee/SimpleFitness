@@ -13,12 +13,18 @@ import android.os.Vibrator
 import android.os.VibrationEffect
 import android.os.Build
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 
 class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
     RecyclerView.Adapter<ExerciseItemAdapter.ExerciseItemViewHolder>() {
     private var exerciseItemList = emptyList<ExerciseItem>()
     private var onExerciseItemListener: OnExerciseItemListener
+    private lateinit var exerciseItemViewModel: ExerciseItemViewModel
 
     init {
         this.onExerciseItemListener = onExerciseItemListener
@@ -32,6 +38,8 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItemViewHolder {
         var itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_exercise, parent, false)
+
+        exerciseItemViewModel = ViewModelProviders.of(itemView.context as FragmentActivity).get(ExerciseItemViewModel::class.java)
 
         return ExerciseItemViewHolder(itemView, onExerciseItemListener)
     }
@@ -52,7 +60,12 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
         holder.textViewReps.setText(current.reps.toString())
         holder.textViewWeight.setText(current.weight.toString())
         holder.textViewTimer.setText(formatTime(convertToMillis(holder.timer)))
+        holder.progressBar.max = holder.timer
+        holder.progressBar.progress = holder.timer
 
+        exerciseItemViewModel.getCountDownTimer(holder).observe(holder.progressBar.context as LifecycleOwner, Observer<CountDownTimer>{
+
+        })
         initTimer(holder)
         setView(holder)
 
@@ -76,7 +89,7 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
 
     private fun setView(holder: ExerciseItemViewHolder) {
         holder.toggleButtonTimer.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimary))
-        holder.progressBar.max = holder.timer
+
 
         holder.toggleButtonTimer.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {

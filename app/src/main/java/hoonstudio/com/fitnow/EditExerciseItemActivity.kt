@@ -74,14 +74,16 @@ class EditExerciseItemActivity : AppCompatActivity() {
         buttonRepsIncrement = findViewById(R.id.button_reps_increment)
 
 
+
+    }
+
+    private fun setView() {
         editTextExerciseName.setText(currentExercise.exerciseName)
         editTextSets.setText(currentExercise.sets.toString())
         editTextReps.setText(currentExercise.reps.toString())
         editTextWeight.setText(currentExercise.weight.toString())
         editTextTimer.setText(currentExercise.timer.toString())
-    }
 
-    private fun setView() {
         var current: Int = 0
         buttonSetsIncrement.setOnClickListener(View.OnClickListener {
             current = editTextSets.text.toString().toInt() + 1
