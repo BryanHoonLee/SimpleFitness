@@ -51,7 +51,7 @@ class AddCategoryActivity : AppCompatActivity() {
         var categoryName = editTextCategoryName.text.toString()
 
         if (categoryName.trim().isEmpty()) {
-            Toast.makeText(this, "Please insert a Category Name", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Please insert a Category Name", Toast.LENGTH_SHORT).show()
             return
         }
 

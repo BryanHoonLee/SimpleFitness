@@ -24,7 +24,6 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
     RecyclerView.Adapter<ExerciseItemAdapter.ExerciseItemViewHolder>() {
     private var exerciseItemList = emptyList<ExerciseItem>()
     private var onExerciseItemListener: OnExerciseItemListener
-    private lateinit var exerciseItemViewModel: ExerciseItemViewModel
 
     init {
         this.onExerciseItemListener = onExerciseItemListener
@@ -38,8 +37,6 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItemViewHolder {
         var itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_exercise, parent, false)
-
-        exerciseItemViewModel = ViewModelProviders.of(itemView.context as FragmentActivity).get(ExerciseItemViewModel::class.java)
 
         return ExerciseItemViewHolder(itemView, onExerciseItemListener)
     }
@@ -59,15 +56,14 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
         holder.textViewSets.setText(current.sets.toString())
         holder.textViewReps.setText(current.reps.toString())
         holder.textViewWeight.setText(current.weight.toString())
-        holder.textViewTimer.setText(formatTime(convertToMillis(holder.timer)))
-        holder.progressBar.max = holder.timer
-        holder.progressBar.progress = holder.timer
+        holder.textViewTimer.setText(formatTime(convertToMillis(current.timer)))
+        holder.progressBar.max = current.timer
+        holder.progressBar.progress = current.timer
+        holder.countDownTimer = ExerciseCountDownTimer(holder, convertToMillis(current.timer), 1000)
 
-        exerciseItemViewModel.getCountDownTimer(holder).observe(holder.progressBar.context as LifecycleOwner, Observer<CountDownTimer>{
-
-        })
-        initTimer(holder)
         setView(holder)
+//        initTimer(holder)
+// holder gets outdated maybe.
 
     }
 
@@ -114,7 +110,7 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
             }
         }
 
-       // holder.progressBar.setProgress(holder.timer)
+         holder.progressBar.setProgress(holder.timer)
 
     }
 
@@ -153,7 +149,7 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
         lateinit var toggleButtonTimer: ToggleButton
         lateinit var countDownTimer: CountDownTimer
 
-        var timer: Int = 45
+        var timer: Int = 1
 
         var onExerciseItemListener: OnExerciseItemListener
 
@@ -176,72 +172,8 @@ class ExerciseItemAdapter(onExerciseItemListener: OnExerciseItemListener) :
             progressBar = itemView.findViewById(R.id.progress_bar)
             toggleButtonTimer = itemView.findViewById(R.id.toggle_button_timer)
 
-        }
 
-//        private fun initTimer(){
-//            countDownTimer = object : CountDownTimer(convertToMillis(timer), 1000) {
-//                override fun onTick(millisUntilFinished: Long) {
-//                    textViewTimer.setText(formatTime(millisUntilFinished))
-//                    var progress: Int = convertToSeconds(millisUntilFinished)
-//                    progressBar.setProgress(progress)
-//                }
-//
-//                override fun onFinish() {
-//                    textViewTimer.setText("00:00")
-//                    toggleButtonTimer.toggle()
-//                    vibrate()
-//                }
-//            }
-//        }
-//
-//        private fun setView() {
-//
-//            textViewTimer.setText(formatTime(convertToMillis(timer)))
-//            toggleButtonTimer.setTextColor(ContextCompat.getColor(itemView.context, R.color.colorPrimary))
-//
-//            toggleButtonTimer.setOnCheckedChangeListener { buttonView, isChecked ->
-//                if (isChecked) {
-//                    toggleButtonTimer.setTextColor(ContextCompat.getColor(itemView.context, R.color.red_stop))
-//                    progressBar.setProgress(timer)
-//                    countDownTimer.start()
-//                } else {
-//                    countDownTimer.cancel()
-//                    toggleButtonTimer.setTextColor(ContextCompat.getColor(itemView.context, R.color.colorPrimary))
-//                    progressBar.setProgress(timer)
-//                    textViewTimer.setText(formatTime(convertToMillis(timer)))
-//                }
-//            }
-//
-//            progressBar.setProgress(timer)
-//            progressBar.max = timer
-//        }
-//
-//        private fun convertToMillis(i: Int) : Long{
-//            var convert = i.toString()
-//            convert += "000"
-//            return convert.toLong()
-//        }
-//
-//        private fun convertToSeconds(millis: Long): Int{
-//            return (millis/1000).toString().toInt()
-//        }
-//
-//        /**
-//         * https://stackoverflow.com/questions/9214786/how-to-convert-the-seconds-in-this-format-hhmmss
-//         */
-//        fun formatTime(millis: Long): String {
-//            val secs = millis / 1000
-//            return String.format("%02d:%02d", secs % 3600 / 60, secs % 60)
-//        }
-//
-//        private fun vibrate() {
-//            val vibrator = itemView.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                vibrator.vibrate(VibrationEffect.createOneShot(1200, VibrationEffect.DEFAULT_AMPLITUDE))
-//            } else {
-//                vibrator.vibrate(1200)
-//            }
-//        }
+        }
     }
 
     interface OnExerciseItemListener {

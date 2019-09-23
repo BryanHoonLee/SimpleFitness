@@ -80,8 +80,8 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
     }
 
     override fun onExerciseItemClick(position: Int) {
-        currentExerciseItem = adapter.getExerciseItemAt(position)
-        startEditActivity(currentExerciseItem)
+      //  currentExerciseItem = adapter.getExerciseItemAt(position)
+       // startEditActivity(currentExerciseItem)
     }
 
     private fun initViews(){
@@ -90,8 +90,8 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
 
     private fun initTouchHelper() {
         val background = ColorDrawable()
-        val deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete)
-        val editIcon = ContextCompat.getDrawable(this, R.drawable.ic_edit)
+        val deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete_big)
+        val editIcon = ContextCompat.getDrawable(this, R.drawable.ic_edit_big)
         val editIconIntrinsicWidth = editIcon!!.intrinsicWidth
         val editIconIntrinsicHeight = editIcon!!.intrinsicHeight
         val deleteIconIntrinsicWidth = deleteIcon!!.intrinsicWidth
@@ -143,7 +143,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
                     background.draw(c)
 
                     val deleteIconTop = itemView.top + (itemHeight - deleteIconIntrinsicHeight) / 2
-                    val deleteIconMargin = (itemHeight - deleteIconIntrinsicHeight) / 2
+                    val deleteIconMargin = (itemHeight - deleteIconIntrinsicHeight) / 3
                     val deleteIconLeft = itemView.right - deleteIconMargin - deleteIconIntrinsicWidth
                     val deleteIconRight = itemView.right - deleteIconMargin
                     val deleteIconBottom = deleteIconTop + deleteIconIntrinsicHeight
@@ -166,7 +166,7 @@ class ExerciseItemActivity : AppCompatActivity(), ExerciseItemAdapter.OnExercise
                     background.draw(c)
 
                     val editIconTop = itemView.top + (itemHeight - editIconIntrinsicHeight) / 2
-                    val editIconMargin = (itemHeight - editIconIntrinsicHeight) / 2
+                    val editIconMargin = (itemHeight - editIconIntrinsicHeight) / 3
                     val editIconLeft = itemView.left + editIconMargin
                     val editIconRight = itemView.left + editIconMargin + editIconIntrinsicWidth
                     val editIconBottom = editIconTop + deleteIconIntrinsicHeight

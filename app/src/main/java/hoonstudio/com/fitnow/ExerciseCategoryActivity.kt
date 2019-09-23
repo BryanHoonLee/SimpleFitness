@@ -148,7 +148,7 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
                         background.draw(c)
 
                         val deleteIconTop = itemView.top + (itemHeight - deleteIconIntrinsicHeight) / 2
-                        val deleteIconMargin = (itemHeight - deleteIconIntrinsicHeight) / 2
+                        val deleteIconMargin = (itemHeight - deleteIconIntrinsicHeight) / 3
                         val deleteIconLeft = itemView.right - deleteIconMargin - deleteIconIntrinsicWidth
                         val deleteIconRight = itemView.right - deleteIconMargin
                         val deleteIconBottom = deleteIconTop + deleteIconIntrinsicHeight
@@ -171,7 +171,7 @@ class ExerciseCategoryActivity : AppCompatActivity(), ExerciseCategoryAdapter.On
                         background.draw(c)
 
                         val editIconTop = itemView.top + (itemHeight - editIconIntrinsicHeight) / 2
-                        val editIconMargin = (itemHeight - editIconIntrinsicHeight) / 2
+                        val editIconMargin = (itemHeight - editIconIntrinsicHeight) / 3
                         val editIconLeft = itemView.left + editIconMargin
                         val editIconRight = itemView.left + editIconMargin + editIconIntrinsicWidth
                         val editIconBottom = editIconTop + deleteIconIntrinsicHeight

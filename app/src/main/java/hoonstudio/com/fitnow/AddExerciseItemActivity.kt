@@ -61,7 +61,7 @@ class AddExerciseItemActivity : AppCompatActivity() {
         var timer = 0
 
         if (exerciseName.trim().isEmpty()) {
-            Toast.makeText(this, "Please Insert An Exercise Name", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Please Insert An Exercise Name", Toast.LENGTH_SHORT).show()
             return
         }
         if (editTextSets.text.toString().trim().isEmpty()) {
@@ -79,7 +79,7 @@ class AddExerciseItemActivity : AppCompatActivity() {
         } else {
             weight = editTextWeight.text.toString().toDouble()
         }
-        if (timer.toString().trim().isEmpty()) {
+        if (editTextTimer.text.toString().trim().isEmpty()) {
             timer = 45
         } else {
             timer = editTextTimer.text.toString().toInt()
